@@ -17,6 +17,7 @@ rectangle "Library System" {
 ' Relations
 lib --> uc1
 lib --> uc2
+lib --> uc3
 mem --> uc3
 mem --> uc4
 mem --> uc5
