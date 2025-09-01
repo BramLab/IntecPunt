@@ -1,5 +1,5 @@
 @startuml
-
+Package "Models" {
 class Book {
   - title: String
   - author: String
@@ -19,21 +19,25 @@ class Member {
   + returnBook(book: Book)
 }
 
+class Librarian {
+  - employeeId: String
+  + addBook(book: Book)
+  + removeBook(book: Book)
+  + editMember(member: Member)
+  }
+}
+
+Package Service {
 class Loan {
   - loanDate: Date
   - dueDate: Date
   - returnDate: Date
   + markReturned()
   + isOverdue(): boolean
+ }
 }
 
-class Librarian {
-  - employeeId: String
-  + addBook(book: Book)
-  + removeBook(book: Book)
-  + editMember(member: Member)
-}
-
+Package Repository {
 class LibrarySystem {
   - books: List<Book>
   - members: List<Member>
@@ -42,6 +46,7 @@ class LibrarySystem {
   + addMember(member: Member)
   + trackLoan(loan: Loan)
   }
+}
 
 LibrarySystem --> Book : manages >
 LibrarySystem --> Member : manages >
@@ -49,5 +54,4 @@ LibrarySystem --> Loan : tracks >
 Loan --> Book : relates to >
 Loan --> Member : borrowed by >
 Librarian --> LibrarySystem : uses >
-Member --> Loan : creates >
 @enduml
