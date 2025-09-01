@@ -15,8 +15,8 @@ class Member {
   - age: int
   - memberId: String
   - email: String
-  + borrowBook(b: Book)
-  + returnBook(b: Book)
+  + borrowBook(book: Book)
+  + returnBook(book: Book)
 }
 
 class Loan {
@@ -29,9 +29,9 @@ class Loan {
 
 class Librarian {
   - employeeId: String
-  + addBook(b: Book)
-  + removeBook(b: Book)
-  + editMember(m: Member)
+  + addBook(book: Book)
+  + removeBook(book: Book)
+  + editMember(member: Member)
 }
 
 class LibrarySystem {
@@ -39,8 +39,8 @@ class LibrarySystem {
   - members: List<Member>
   - loans: List<Loan>
   + searchBooks(query: String)
-  + addMember(m: Member)
-  + trackLoan(l: Loan)
+  + addMember(member: Member)
+  + trackLoan(loan: Loan)
   }
 
 LibrarySystem --> Book : manages >
