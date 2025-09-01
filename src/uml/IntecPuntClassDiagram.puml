@@ -6,8 +6,6 @@ class Book {
   - publicationYear: int
   - ISBN: String
   - availableCopies: int
-  + editDetails()
-  + isAvailable(): boolean
 }
 
 class Member {
@@ -19,45 +17,47 @@ class Member {
 
 class Librarian {
   - employeeId: String
-  + addBook(book: Book)
-  + removeBook(book: Book)
-  + editMember(member: Member)
+
   }
 }
 
-Package Service {
-class Loan {
+Package "Service" {
+class LoanService {
   - loanDate: Date
   - dueDate: Date
   - returnDate: Date
   + markReturned()
   + isOverdue(): boolean
-   }
+  }
 class MemberService {
   + borrowBook(book: Book)
   + returnBook(book: Book)
-   }
+
+  }
 class BookService {
-  + borrowBook(book: Book)
-  + returnBook(book: Book)
+  + editDetails()
+  + isAvailable(): boolean
+  + addNewBook(book: Book)
+  + removeBook(book: Book)
   }
 }
 
-Package Repository {
+Package "Repository" {
 class LibrarySystem {
   - books: List<Book>
   - members: List<Member>
   - loans: List<Loan>
   + searchBooks(query: String)
   + addMember(member: Member)
+  + editMember(member: Member)
   + trackLoan(loan: Loan)
   }
 }
 
+@enduml
+
 LibrarySystem --> Book : manages >
 LibrarySystem --> Member : manages >
-LibrarySystem --> Loan : tracks >
-Loan --> Book : relates to >
-Loan --> Member : borrowed by >
+LoanService --> BookService : relates to >
+LoanService --> MemberService : borrowed by >
 Librarian --> LibrarySystem : uses >
-@enduml
