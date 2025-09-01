@@ -15,8 +15,6 @@ class Member {
   - age: int
   - memberId: String
   - email: String
-  + borrowBook(book: Book)
-  + returnBook(book: Book)
 }
 
 class Librarian {
@@ -34,7 +32,15 @@ class Loan {
   - returnDate: Date
   + markReturned()
   + isOverdue(): boolean
- }
+   }
+class MemberService {
+  + borrowBook(book: Book)
+  + returnBook(book: Book)
+   }
+class BookService {
+  + borrowBook(book: Book)
+  + returnBook(book: Book)
+  }
 }
 
 Package Repository {
