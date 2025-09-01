@@ -1,0 +1,28 @@
+@startuml
+!theme plain
+
+left to right direction
+
+actor "Librarian" as lib
+actor "Member" as mem
+
+rectangle "Library System" {
+  (Manage Books) as uc1
+  (Manage Members) as uc2
+  (Search Catalog) as uc3
+  (Borrow Book) as uc4
+  (Return Book) as uc5
+}
+
+' Relations
+lib --> uc1
+lib --> uc2
+mem --> uc3
+mem --> uc4
+mem --> uc5
+
+' Notes courtes
+note right of uc1 : Add, edit, remove books
+note right of uc2 : Register, update members
+note right of uc4 : Loan available books
+@enduml
