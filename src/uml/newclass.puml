@@ -1,0 +1,80 @@
+@startuml
+'https://plantuml.com/class-diagram
+class Library {
+  - catalog: Map<String, Book>
+  - members: Map<String, Member>
+  - activeLoans: Map<Integer, Loan>
+  - loanCounter: int
+  + addBook(book: Book): boolean
+  + removeBook(isbn: String): boolean
+  + updateBook(isbn: String): boolean
+  + searchBooks(query: String): List<Book>
+  + registerMember(member: Member): boolean
+  + removeMember(memberId: String): boolean
+  + updateMember(memberId: String): boolean
+  + borrowBook(isbn: String, memberId: String): Loan
+  + returnBook(loanId: int): boolean
+}
+
+class Book {
+  - title: String
+  - author: String
+  - publicationYear: int
+  - isbn: String
+  - totalCopies: int
+  - availableCopies: int
+  + isAvailable(): boolean
+  + decreaseAvailableCopies(): void
+  + increaseAvailableCopies(): void
+}
+
+class Member {
+  - name: String
+  - age: int
+  - memberId: String
+  - contactInfo: String
+  - activeLoanIds: List<Integer>
+}
+
+class Loan {
+  - loanId: int
+  - bookIsbn: String
+  - memberId: String
+  - borrowDate: Date
+  - dueDate: Date
+  - returnDate: Date
+  + isOverdue(): boolean
+  + calculateFine(): double
+}
+
+class Librarian {
+  - employeeId: String
+  - name: String
+  + addNewBook(library: Library, book: Book)
+  + removeBook(library: Library, isbn: String)
+  + registerNewMember(library: Library, member: Member)
+  + updateMemberInfo(library: Library, memberId: String)
+}
+
+' Relationships
+Library "1" *-- "*" Book : contains
+Library "1" *-- "*" Member : manages
+Library "1" *-- "*" Loan : maintains
+
+Loan }o-- "1" Book : references
+Loan }o-- "1" Member : references
+
+Librarian --> Library : uses
+
+note right of Library
+  Core system that orchestrates all
+  operations and maintains data integrity.
+  Central point for all business logic.
+end note
+
+note top of Loan
+  Represents the transaction between
+  a member and a book. Tracks dates
+  and manages overdue calculations.
+end note
+@enduml
