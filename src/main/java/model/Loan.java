@@ -1,5 +1,4 @@
 package model;
-
 import java.util.Date;
 import java.util.Objects;
 
@@ -9,6 +8,8 @@ public class Loan {
     private Date loanDate;
     private Date dueDate;
     private Date returnDate;
+    private Book book;
+    private Member member;
 
     public Loan(String loanID, Date loanDate, Date dueDate) {
         this.loanID = loanID;
