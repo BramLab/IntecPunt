@@ -11,6 +11,7 @@ public class BookRepository {
 
     public BookRepository() {
         // read file with list of books, and put them in book list.
+        addBook(new Book("The Hobbit"));
     }
 
     public void addBook(Book book){

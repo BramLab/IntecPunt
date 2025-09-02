@@ -16,7 +16,7 @@ class service.BookService {
 - BookRepository bookRepository
 + <<Create>> BookService()
 + List<Book> getBooks()
-+ void insertBook(Book)
++ void addBook(Book)
 }
 
 

@@ -16,7 +16,7 @@ public class BookService {
         return bookRepository.getBooks();
     }
 
-    public void insertBook(Book book){
+    public void addBook(Book book){
         bookRepository.addBook(book);
     }
 
