@@ -1,0 +1,31 @@
+@startuml
+class Controller {
++ {static} void main(String[])
+}
+
+class model.Book {
+- String title
++ <<Create>> Book(String)
++ String getTitle()
++ void setTitle(String)
++ String toString()
+}
+
+
+class service.BookService {
+- BookRepository bookRepository
++ <<Create>> BookService()
++ List<Book> getBooks()
++ void insertBook(Book)
+}
+
+
+class repository.BookRepository {
+~ List<Book> books
++ <<Create>> BookRepository()
++ void addBook(Book)
++ List<Book> getBooks()
+}
+
+
+@enduml
