@@ -27,14 +27,14 @@ class Loan {
 Package "Service" {
 
 class MemberService {
- - MemberRepository members
+ - MemberRepository memberRepository
   }
 class BookService {
- - BookRepository books
+ - BookRepository bookRepository
 
   }
 class LoanService {
- - LoanRepository loans
+ - LoanRepository loanRepository
   }
 }
 
