@@ -1,0 +1,37 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+actor Member
+participant ":LibrarySystem" as System
+participant ":LoanService" as LoanService
+participant ":BookRepository" as BookRepo
+participant ":MemberRepository" as MemberRepo
+
+Member -> System: borrowBook(isbn, memberId)
+activate System
+
+System -> LoanService: loanBook(memberId, isbn)
+activate LoanService
+
+LoanService -> BookRepo: findById(isbn)
+activate BookRepo
+BookRepo --> LoanService: Book
+deactivate BookRepo
+
+LoanService -> MemberRepo: findById(memberId)
+activate MemberRepo
+MemberRepo --> LoanService: Member
+deactivate MemberRepo
+
+LoanService -> LoanService: validateBorrow()\ncreateLoan()
+
+LoanService -> BookRepo: updateAvailability(-1)
+activate BookRepo
+BookRepo --> LoanService: OK
+deactivate BookRepo
+
+LoanService --> System: Loan created
+deactivate LoanService
+
+System --> Member: "Book borrowed successfully"
+deactivate System
+@enduml

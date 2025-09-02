@@ -11,14 +11,12 @@ class model.Book {
 + String toString()
 }
 
-
 class service.BookService {
 - BookRepository bookRepository
 + <<Create>> BookService()
 + List<Book> getBooks()
 + void addBook(Book)
 }
-
 
 class repository.BookRepository {
 ~ List<Book> books
@@ -27,5 +25,8 @@ class repository.BookRepository {
 + List<Book> getBooks()
 }
 
+Controller -> BookService
+BookService -> BookRepository
+BookRepository -> Book
 
 @enduml
