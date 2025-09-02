@@ -6,62 +6,72 @@ class Book {
   - publicationYear: int
   - ISBN: String
   - availableCopies: int
-  // getter, setter, equals, hashcode
-  }
+}
+
 class Member {
   - name: String
   - age: int
-  - memberId: String
+  - memberId: Long
   - email: String
-  // getter, setter, equals, hashcode
-  }
+}
+
 class Loan {
   - loanID String
   - loanDate: Date
-  - dueDate: Date
+  - dueDate : Date
   - returnDate: Date
-  // getter, setter, equals, hashcode
+  - status : Enum
+  - memberId : Long
+  - bookId : Long
   }
 }
 
 Package "Service" {
 
 class MemberService {
- - MemberRepository memberRepository
-  }
-class BookService {
- - BookRepository bookRepository
+  - MemberRepository : membeRepository
+  + addMember(Member)
+  + removeMember(Long)
+  + listMembers()
 
   }
+class BookService {
+  - BookRepository : bookRepository
+  + addBook(book: Book)
+  + removeBook(book: Book)
+  + listBook list()
+  + searchBook(String)
+  }
 class LoanService {
- - LoanRepository loanRepository
+  - LoanRepository : loanRepository
+  + loanBook(Long mId, Long bId)
+  + returnBook(Long loanId)
+  +calculteFine(Long loanId)
   }
 }
 
 Package "Repository" {
 class LoanRepository {
-  - loans: List<Loan>
-  + markReturned()
-  + isOverdue(): boolean
-  + borrowBook(book: Book)
-  + returnBook(book: Book)
-  + searchBooks(query: String)
-  + trackLoan(loan: Loan)
+  + save(Loan)
+  + findById(Long)
+  + findActiveByMember(Long)
+  + findAll()
+
   }
 class BookRepository {
-  - books: List<Book>
-  + editDetails()
-  + isAvailable(): boolean
-  + addNewBook(book: Book)
-  + removeBook(book: Book)
-  }
+ + save(Book)
+ + findById(Long)
+ + findAll()
+ + findByTitle(String)
+}
 class MemberRepository {
-  - members: List<Member>
-  + addMember(member: Member)
-  + editMember(member: Member)
+- members: List<Member>
+  + save(Member)
+  + deleteById(Long)
+  + findById(Long)
+  + findAll()
 
-
-  }
+}
 }
 
 class LibrarySystemMain {
@@ -75,7 +85,7 @@ BookRepository --> Book : manages >
 MemberRepository --> Member : manages >
 LoanRepository --> Loan : manages >
 LoanService <-- BookService : relates to >
-LoanService <-- MemberService : borrowed by <
+LoanService <-- MemberService : borrowed by >
 
 
 
