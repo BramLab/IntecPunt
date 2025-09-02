@@ -55,4 +55,14 @@ public class Member {
     public int hashCode() {
         return Objects.hash(name, age, memberId, email);
     }
+
+    @Override
+    public String toString() {
+        return "Member{" +
+                "name='" + name + '\'' +
+                ", age=" + age +
+                ", memberId='" + memberId + '\'' +
+                ", email='" + email + '\'' +
+                '}';
+    }
 }
