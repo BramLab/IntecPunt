@@ -1,6 +1,7 @@
 package service;
 
 import repository.MemberRepository;
+import model.Member;
 
 import java.util.List;
 

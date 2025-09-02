@@ -1,12 +1,12 @@
 package model;
-import java.lang.reflect.Member;
+import model.Member;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.Objects;
 
 public class Loan {
 
-    private Long loanID;
+    private long loanID;
     private LocalDate loanDate;   // datum boek wordt ontleend
     private LocalDate dueDate;        // vervaldatum
     private LocalDate returnDate;    //datum terugbrengen
@@ -15,7 +15,7 @@ public class Loan {
     private Book book;
     //private Member member;
 
-    public Loan(Long loanID, Member member, Book book) {
+    public Loan(long loanID, Member member, Book book) {
         this.loanID = loanID;
         this.member = member;
         this.book= book;
@@ -24,8 +24,8 @@ public class Loan {
         this.status= LoanStatus.ACTIVE;
     }
 
-    public Long getLoanID() {        return loanID;    }
-    public void setLoanID(Long loanID) {        this.loanID = loanID;    }
+    public long getLoanID() {        return loanID;    }
+    public void setLoanID(long loanID) {        this.loanID = loanID;    }
     public LocalDate getLoanDate() {        return loanDate;    }
     public void setLoanDate(LocalDate loanDate) {        this.loanDate = loanDate;    }
     public LocalDate getDueDate() {        return dueDate;    }
@@ -34,6 +34,8 @@ public class Loan {
     public void setReturnDate(LocalDate returnDate) {        this.returnDate = returnDate;    }
     public LoanStatus getStatus() {  return status;     }
     public void setStatus(LoanStatus status) {  this.status = status;    }
+
+
 
     @Override
     public boolean equals(Object o) {
