@@ -1,0 +1,15 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+actor Librarian
+participant "System" as sys
+
+Librarian -> sys: addBook(title, author, isbn, year, copies)
+activate sys
+
+sys -> sys: validateData()
+sys -> sys: create new Book
+sys -> sys: add to catalog
+
+sys --> Librarian: Confirmation: "Book added successfully"
+deactivate sys
+@enduml

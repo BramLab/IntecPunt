@@ -1,0 +1,15 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+actor Member
+participant "System" as sys
+
+Member -> sys: returnBook(isbn, memberId)
+activate sys
+
+sys -> sys: find loan by isbn and memberId
+sys -> sys: mark as returned
+sys -> sys: increase available copies
+
+sys --> Member: Confirmation: "Book returned"
+deactivate sys
+@enduml

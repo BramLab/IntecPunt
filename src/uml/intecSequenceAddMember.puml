@@ -1,0 +1,14 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+actor Librarian
+participant "System" as sys
+
+Librarian -> sys: addMember(name, age, contact)
+activate sys
+
+sys -> sys: validate data
+sys -> sys: create new member
+
+sys --> Librarian: Confirmation: "Member added successfully"
+deactivate sys
+@enduml

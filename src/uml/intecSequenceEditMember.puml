@@ -1,0 +1,15 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+actor Librarian
+participant "System" as sys
+
+Librarian -> sys: editMember(memberId, newData)
+activate sys
+
+sys -> sys: find member by memberId
+sys -> sys: update member data
+sys -> sys: save changes
+
+sys --> Librarian: Confirmation: "Member updated"
+deactivate sys
+@enduml

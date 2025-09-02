@@ -1,0 +1,24 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+actor Member
+participant "System" as sys
+
+Member -> sys: borrowBook(isbn, memberId)
+activate sys
+
+sys -> sys: find book by isbn
+sys -> sys: check availability
+
+alt Book available
+    sys -> sys: find member by memberId
+    sys -> sys: check member status
+    sys -> sys: decrease available copies
+    sys -> sys: register loan
+
+    sys --> Member: Confirmation: "Book borrowed"
+else Book not available
+    sys --> Member: Error: "Book not available"
+end
+
+deactivate sys
+@enduml
