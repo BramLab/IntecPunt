@@ -8,6 +8,7 @@ public class Loan {
     private Date loanDate;
     private Date dueDate;
     private Date returnDate;
+    private LoanStatus status;
     private Book book;
     private Member member;
 
