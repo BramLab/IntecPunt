@@ -1,0 +1,98 @@
+@startuml
+
+Package Controller{
+    class LibrarySystem{
+        showMainMenu
+        showManageMember
+
+
+
+    }
+}
+
+Package Models {
+
+    class Book {
+    - bookId
+    - title: String
+    - author: String
+    - publicationYear: int
+    - ISBN: String
+    - availableCopies: int
+    }
+
+    class Member {
+    - memberId: String
+    - person:Person
+    - email: String
+    }
+
+    class Loan{
+    - loanId:int
+    - book:Book
+    - member:Member
+    - dateOut
+    - dateIn
+    }
+
+    class Librarian {
+    - employeeId: String
+    - person:Person
+    }
+
+    class Person{
+    - personId
+    - name
+    - email
+    - dateOfBirth
+    }
+
+}
+
+Package Service {
+
+    class LoanService {
+    getLoan(loanId):Loan
+    getLoans(bookId):coll(Loan)
+    getLoans(memberId):coll(Loan)
+    saveLoan(Loan)
+    }
+
+    class MemberService {
+    getMember(memberId):Member
+    getMembers(name):coll(Member)
+    getMembersSorted(name)
+    getMembers(
+
+    }
+
+    class BookService {
+    insertNewBook(book: Book)
+    updateBook(Book)
+    deleteBook(Book)(archive?)
+    isAvailable(Book): boolean
+    }
+
+}
+
+Package "Repository" {
+
+    class LibrarySystem {
+    - books: List<Book>
+    - members: List<Member>
+    - loans: List<Loan>
+    + searchBooks(query: String)
+    + addMember(member: Member)
+    + editMember(member: Member)
+    + trackLoan(loan: Loan)
+    }
+
+}
+
+@enduml
+
+LibrarySystem --> Book : manages >
+LibrarySystem --> Member : manages >
+LoanService --> BookService : relates to >
+LoanService --> MemberService : borrowed by >
+Librarian --> LibrarySystem : uses >
