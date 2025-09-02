@@ -6,56 +6,62 @@ class Book {
   - publicationYear: int
   - ISBN: String
   - availableCopies: int
-}
-
+  // getter, setter, equals, hashcode
+  }
 class Member {
   - name: String
   - age: int
   - memberId: String
   - email: String
-}
-
+  // getter, setter, equals, hashcode
+  }
 class Loan {
   - loanID String
   - loanDate: Date
   - dueDate: Date
   - returnDate: Date
+  // getter, setter, equals, hashcode
   }
 }
 
 Package "Service" {
 
 class MemberService {
-  + borrowBook(book: Book)
-  + returnBook(book: Book)
+ - MemberRepository members
   }
 class BookService {
+ - BookRepository books
+
+  }
+class LoanService {
+ - LoanRepository loans
+  }
+}
+
+Package "Repository" {
+class LoanRepository {
+  - loans: List<Loan>
+  + markReturned()
+  + isOverdue(): boolean
+  + borrowBook(book: Book)
+  + returnBook(book: Book)
+  + searchBooks(query: String)
+  + trackLoan(loan: Loan)
+  }
+class BookRepository {
+  - books: List<Book>
   + editDetails()
   + isAvailable(): boolean
   + addNewBook(book: Book)
   + removeBook(book: Book)
   }
-class LoanService {
-  + markReturned()
-  + isOverdue(): boolean
-  }
-}
-
-Package "Repository" {
-class LoanSystem {
-- loans: List<Loan>
-  + searchBooks(query: String)
-  + trackLoan(loan: Loan)
-  }
-class BookRepository {
- - books: List<Book>
-}
 class MemberRepository {
-- members: List<Member>
+  - members: List<Member>
   + addMember(member: Member)
   + editMember(member: Member)
 
-}
+
+  }
 }
 
 class LibrarySystemMain {
@@ -64,12 +70,12 @@ class LibrarySystemMain {
 
 BookService --> BookRepository : implements
 MemberService --> MemberRepository : implements
-LoanService --> LoanSystem : implements
+LoanService --> LoanRepository : implements
 BookRepository --> Book : manages >
 MemberRepository --> Member : manages >
-LoanSystem --> Loan : manages >
+LoanRepository --> Loan : manages >
 LoanService <-- BookService : relates to >
-LoanService <-- MemberService : borrowed by >
+LoanService <-- MemberService : borrowed by <
 
 
 
