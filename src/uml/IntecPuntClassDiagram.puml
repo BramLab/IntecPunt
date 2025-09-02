@@ -11,53 +11,82 @@ class Book {
 class Member {
   - name: String
   - age: int
-  - memberId: String
+  - memberId: Long
   - email: String
 }
 
-class Librarian {
-  - employeeId: String
-
+class Loan {
+  - loanID String
+  - loanDate: Date
+  - dueDate : Date
+  - returnDate: Date
+  - status : Enum
+  - memberId : Long
+  - bookId : Long
   }
 }
 
 Package "Service" {
-class LoanService {
-  - loanDate: Date
-  - dueDate: Date
-  - returnDate: Date
-  + markReturned()
-  + isOverdue(): boolean
-  }
+
 class MemberService {
-  + borrowBook(book: Book)
-  + returnBook(book: Book)
+  - MemberRepository : membeRepository
+  + addMember(Member)
+  + removeMember(Long)
+  + listMembers()
 
   }
 class BookService {
-  + editDetails()
-  + isAvailable(): boolean
-  + addNewBook(book: Book)
+  - BookRepository : bookRepository
+  + addBook(book: Book)
   + removeBook(book: Book)
+  + listBook list()
+  + searchBook(String)
+  }
+class LoanService {
+  - LoanRepository : loanRepository
+  + loanBook(Long mId, Long bId)
+  + returnBook(Long loanId)
+  +calculteFine(Long loanId)
   }
 }
 
 Package "Repository" {
-class LibrarySystem {
-  - books: List<Book>
-  - members: List<Member>
-  - loans: List<Loan>
-  + searchBooks(query: String)
-  + addMember(member: Member)
-  + editMember(member: Member)
-  + trackLoan(loan: Loan)
+class LoanRepository {
+  + save(Loan)
+  + findById(Long)
+  + findActiveByMember(Long)
+  + findAll()
+
   }
+class BookRepository {
+ + save(Book)
+ + findById(Long)
+ + findAll()
+ + findByTitle(String)
+}
+class MemberRepository {
+- members: List<Member>
+  + save(Member)
+  + deleteById(Long)
+  + findById(Long)
+  + findAll()
+
+}
 }
 
-@enduml
+class LibrarySystemMain {
 
-LibrarySystem --> Book : manages >
-LibrarySystem --> Member : manages >
-LoanService --> BookService : relates to >
-LoanService --> MemberService : borrowed by >
-Librarian --> LibrarySystem : uses >
+}
+
+BookService --> BookRepository : implements
+MemberService --> MemberRepository : implements
+LoanService --> LoanRepository : implements
+BookRepository --> Book : manages >
+MemberRepository --> Member : manages >
+LoanRepository --> Loan : manages >
+LoanService <-- BookService : relates to >
+LoanService <-- MemberService : borrowed by >
+
+
+
+@enduml
