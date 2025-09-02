@@ -1,0 +1,31 @@
+@startuml
+actor User
+participant ":LibrarySystem" as System
+participant ":BookService" as Service
+participant ":BookRepository" as Repo
+participant "books: List<Book>" as List
+
+User -> System: searchBooks(query)
+activate System
+
+System -> Service: searchBooks(query)
+activate Service
+
+Service -> Repo: getBooks()
+activate Repo
+
+Repo -> List: getCopy()
+activate List
+List --> Repo: List<Book>
+deactivate List
+
+Repo --> Service: List<Book>
+deactivate Repo
+
+Service -> Service: filterByTitle/Author/ISBN(query)
+Service --> System: filteredResults
+deactivate Service
+
+System --> User: List<Book>
+deactivate System
+@enduml
