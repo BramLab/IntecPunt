@@ -15,24 +15,19 @@ class Member {
   - email: String
 }
 
-class Librarian {
-  - employeeId: String
-
+class Loan {
+  - loanID String
+  - loanDate: Date
+  - dueDate: Date
+  - returnDate: Date
   }
 }
 
 Package "Service" {
-class LoanService {
-  - loanDate: Date
-  - dueDate: Date
-  - returnDate: Date
-  + markReturned()
-  + isOverdue(): boolean
-  }
+
 class MemberService {
   + borrowBook(book: Book)
   + returnBook(book: Book)
-
   }
 class BookService {
   + editDetails()
@@ -40,24 +35,42 @@ class BookService {
   + addNewBook(book: Book)
   + removeBook(book: Book)
   }
-}
-
-Package "Repository" {
-class LibrarySystem {
-  - books: List<Book>
-  - members: List<Member>
-  - loans: List<Loan>
-  + searchBooks(query: String)
-  + addMember(member: Member)
-  + editMember(member: Member)
-  + trackLoan(loan: Loan)
+class LoanService {
+  + markReturned()
+  + isOverdue(): boolean
   }
 }
 
-@enduml
+Package "Repository" {
+class LoanSystem {
+- loans: List<Loan>
+  + searchBooks(query: String)
+  + trackLoan(loan: Loan)
+  }
+class BookRepository {
+ - books: List<Book>
+}
+class MemberRepository {
+- members: List<Member>
+  + addMember(member: Member)
+  + editMember(member: Member)
 
-LibrarySystem --> Book : manages >
-LibrarySystem --> Member : manages >
-LoanService --> BookService : relates to >
-LoanService --> MemberService : borrowed by >
-Librarian --> LibrarySystem : uses >
+}
+}
+
+class LibrarySystemMain {
+
+}
+
+BookService --> BookRepository : implements
+MemberService --> MemberRepository : implements
+LoanService --> LoanSystem : implements
+BookRepository --> Book : manages >
+MemberRepository --> Member : manages >
+LoanSystem --> Loan : manages >
+LoanService <-- BookService : relates to >
+LoanService <-- MemberService : borrowed by >
+
+
+
+@enduml
