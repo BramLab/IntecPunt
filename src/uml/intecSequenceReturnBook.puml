@@ -1,0 +1,37 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+actor Member
+participant ":LibrarySystem" as System
+participant ":LoanService" as LoanService
+participant ":LoanRepository" as LoanRepo
+participant ":BookRepository" as BookRepo
+
+Member -> System: returnBook(loanId)
+activate System
+
+System -> LoanService: returnBook(loanId)
+activate LoanService
+
+LoanService -> LoanRepo: findById(loanId)
+activate LoanRepo
+LoanRepo --> LoanService: Loan
+deactivate LoanRepo
+
+LoanService -> LoanService: calculateFine()\nmarkReturned()
+
+LoanService -> BookRepo: updateAvailability(+1)
+activate BookRepo
+BookRepo --> LoanService: OK
+deactivate BookRepo
+
+LoanService -> LoanRepo: save(updatedLoan)
+activate LoanRepo
+LoanRepo --> LoanService: OK
+deactivate LoanRepo
+
+LoanService --> System: Fine amount
+deactivate LoanService
+
+System --> Member: "Book returned. Fine: €X"
+deactivate System
+@enduml

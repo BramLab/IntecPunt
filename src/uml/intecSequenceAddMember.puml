@@ -1,0 +1,33 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+actor Librarian
+participant ":LibrarySystem" as System
+participant ":MemberService" as Service
+participant ":MemberRepository" as Repo
+participant "members: List<Member>" as List
+
+Librarian -> System: addMember(name, age, contactInfo)
+activate System
+
+System -> Service: addMember(memberData)
+activate Service
+
+Service -> Service: generateMemberId()\nvalidateData()
+
+Service -> Repo: save(new Member(...))
+activate Repo
+
+Repo -> List: add(member)
+activate List
+List --> Repo: OK
+deactivate List
+
+Repo --> Service: OK
+deactivate Repo
+
+Service --> System: new Member
+deactivate Service
+
+System --> Librarian: "Member added. ID: X"
+deactivate System
+@enduml

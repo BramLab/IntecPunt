@@ -1,0 +1,43 @@
+@startuml
+actor Librarian
+participant ":LibrarySystem" as System
+participant ":MemberService" as Service
+participant ":MemberRepository" as Repo
+participant "members: List<Member>" as List
+
+Librarian -> System: editMember(memberId, newData)
+activate System
+
+System -> Service: updateMember(memberId, newData)
+activate Service
+
+Service -> Repo: findById(memberId)
+activate Repo
+
+Repo -> List: find member by ID
+activate List
+List --> Repo: Member
+deactivate List
+
+Repo --> Service: Member
+deactivate Repo
+
+Service -> Service: updateFields(member, newData)
+
+Service -> Repo: save(updatedMember)
+activate Repo
+
+Repo -> List: update member in list
+activate List
+List --> Repo: OK
+deactivate List
+
+Repo --> Service: OK
+deactivate Repo
+
+Service --> System: updated Member
+deactivate Service
+
+System --> Librarian: "Member updated successfully"
+deactivate System
+@enduml
