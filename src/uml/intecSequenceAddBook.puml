@@ -1,0 +1,31 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+actor Librarian
+participant ":LibrarySystem" as System
+participant ":BookService" as Service
+participant ":BookRepository" as Repo
+participant "books: List<Book>" as List
+
+Librarian -> System: addBook(title, author, isbn, year, copies)
+activate System
+
+System -> Service: addBook(bookData)
+activate Service
+
+Service -> Repo: save(new Book(...))
+activate Repo
+
+Repo -> List: add(book)
+activate List
+List --> Repo:   ok
+deactivate List
+
+Repo --> Service: OK
+deactivate Repo
+
+Service --> System: Confirmation
+deactivate Service
+
+System --> Librarian: "  Book added successfully"
+deactivate System
+@enduml
