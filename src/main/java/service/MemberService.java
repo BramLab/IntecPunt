@@ -1,3 +1,7 @@
+package service;
+
+import repository.MemberRepository;
+
 import java.util.List;
 
 public class MemberService {
