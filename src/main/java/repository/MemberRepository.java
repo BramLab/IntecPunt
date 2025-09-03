@@ -14,12 +14,12 @@ public class MemberRepository {
     }
 
     public void deleteById(long id) {
-        members.removeIf(m -> m.getMemberId() == (id));
+        members.removeIf(m -> m.getMemberId().equals(id));
     }
 
     public Optional<Member> findById(long id) {
         return members.stream()
-                .filter(m -> m.getMemberId() == (id))
+                .filter(m -> m.getMemberId().equals(id))
                 .findFirst();
     }
 
