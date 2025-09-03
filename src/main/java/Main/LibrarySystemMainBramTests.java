@@ -21,7 +21,8 @@ public class LibrarySystemMainBramTests {
 
             Book book1 = new Book("OCA java 8");
             Member m1 = new Member("Bram", 64, "bram.labarque@gmail.com", "1234");
-            LoanRepository loanRepository = new LoanRepository(new Loan(book1, m1, new Date(), new Date(2025,10,1)));
+            Loan aLoan = new Loan(new Date(), new Date(2025,10,1), book1, m1);
+            LoanRepository loanRepository = new LoanRepository(aLoan);
 
             //Maak Services
             BookService bookService = new BookService(bookRepository);

@@ -15,15 +15,15 @@ public class LoanService {
     }
 
     public Loan createLoan(Book book, Member member, int loanDays) {
-        if (book.getAvailableCopies() <= 0) { // getters nodig van variabele AvailableCopies in Book
-            throw new IllegalStateException("Book unavailable");
-        }
+//        if (book.getAvailableCopies() <= 0) { // getters nodig van variabele AvailableCopies in Book
+//            throw new IllegalStateException("Book unavailable");
+//        }
         Date loanDate = new Date();
         Date dueDate = new Date(loanDate.getTime() + loanDays * 1000*60*60*24L);
 
         Loan loan = new Loan(loanDate, dueDate, book, member);
         //book.decrementAvailableCopies();
-        loanRepository.addLoan(loan);
+        //loanRepository.addLoan(loan);
         return loan;
     }
 
@@ -34,7 +34,7 @@ public class LoanService {
     }
 
     public double checkFine (Loan loan) {
-        return loanRepository.calculateFine(loan);
+        return 0;//loanRepository.calculateFine(loan);
     }
 }
 

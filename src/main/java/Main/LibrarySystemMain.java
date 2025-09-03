@@ -2,11 +2,13 @@ package Main;
 
 import model.Loan;
 import model.LoanStatus;
+import model.Member;
 import repository.BookRepository;
 import service.BookService;
 import model.Book;
 
 import java.time.LocalDate;
+import java.util.Date;
 
 public class LibrarySystemMain {
     public static void main(String[] args) {
@@ -14,7 +16,7 @@ public class LibrarySystemMain {
         BookRepository bookRepository = new BookRepository();
 
         //Maak Services
-        BookService bookService = new BookService();
+        BookService bookService = new BookService(bookRepository);
 
 
         // Voeg enkele boeken toe
@@ -25,13 +27,12 @@ public class LibrarySystemMain {
         bookService.addBook(b1);
         bookService.addBook(b2);
         bookService.addBook(b3);
-
-        Loan loan = new Loan(123456," ",b1);
-        loan.setLoanDate(LocalDate.now());
-        loan.setDueDate(loan.getLoanDate().plusDays(14));
-        loan.setReturnDate(LocalDate.now());
+        Member m1 = new Member("Bram", 64, "bram.labarque@gmail.com", "1234");
+        Loan loan = new Loan(new Date(), new Date(2025,10,1),b1, m1);
+        loan.setLoanDate(new Date());
+//        loan.setDueDate(loan.getLoanDate().plusDays(14));
+//        loan.setReturnDate(LocalDate.now());
         loan.setStatus(LoanStatus.RETURNED);
-
 
     }
 }

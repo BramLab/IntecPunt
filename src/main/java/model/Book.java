@@ -7,7 +7,7 @@ public class Book {
     private String author;
     private int publicationYear;
     private String isbn;
-    private boolean archived;
+    private boolean isArchived;
     private Long id;
     //- totalCopies: int -> service
     // availableCopies: int -> service
@@ -65,6 +65,7 @@ public class Book {
                 ", author='" + author + '\'' +
                 ", publicationYear=" + publicationYear +
                 ", isbn='" + isbn + '\'' +
+                ", isArchived='" + isArchived + '\'' +
                 ", id='" + id + '\'' +
                 '}';
     }
