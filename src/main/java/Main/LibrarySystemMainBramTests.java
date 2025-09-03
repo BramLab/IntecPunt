@@ -45,7 +45,7 @@ public class LibrarySystemMainBramTests {
             book = bookService.searchBook("9789067282451");
             System.out.println("\nbookService.searchBook(isbn): " + book);
 
-            System.out.println("\nbookService.countCopies: " + bookService.countCopies("9789067282451"));
+            System.out.println("\nbookService.countCopies: " + bookService.countCopies("9789022575512"));
 
 //        Loan loan = new Loan(b1," ",b1);
 //        loan.setLoanDate(LocalDate.now());
