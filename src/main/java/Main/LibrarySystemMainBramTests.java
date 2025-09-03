@@ -57,7 +57,7 @@ public class LibrarySystemMainBramTests {
         System.out.println(Arrays.toString(memberService.listMembers().toArray()));
 
         // Test loans/books:
-        System.out.println("\nTest loans:");
+        System.out.println("\nTest loans/books:");
         Book bookHobbit = bookService.searchBook("De Hobbit", "John Ronald Reuel Tolkien", 2015);
         loanService.createLoan(bookHobbit, m1, 10);
 
