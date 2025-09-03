@@ -5,6 +5,7 @@ import model.LoanStatus;
 import model.Member;
 import repository.LoanRepository;
 import java.util.Date;
+import java.util.Objects;
 
 public class LoanService {
 
@@ -25,6 +26,13 @@ public class LoanService {
         //book.decrementAvailableCopies();
         //loanRepository.addLoan(loan);
         return loan;
+    }
+
+    public int countNonreturnedCopies(String isbn){
+         return (int) loanRepository.getAllLoans().stream()
+                .filter(l -> Objects.nonNull(l.getBook().getIsbn()))
+                .filter(l -> l.getBook().getIsbn().equals(isbn) & l.getStatus() != LoanStatus.RETURNED)//or returnDate null?
+                .count();
     }
 
     public void returnBook(Loan loan) {
