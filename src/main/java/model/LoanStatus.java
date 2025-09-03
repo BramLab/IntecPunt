@@ -5,3 +5,4 @@ public enum LoanStatus {
     RETURNED, // Boek is teruggebracht
     OVERDUE;  // Boek is te laat, niet teruggebracht
 }
+

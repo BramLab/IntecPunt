@@ -1,32 +1,177 @@
 @startuml
+
+Main.LibrarySystemMain -> service.BookService
+Main.LibrarySystemMain --> service.MemberService
+Main.LibrarySystemMain --> service.LoanService
+
+Controller -> service.BookService
+Controller --> service.MemberService
+Controller --> service.LoanService
+
+service.BookService --> repository.BookRepository
+service.MemberService --> repository.MemberRepository
+service.LoanService --> repository.LoanRepository
+
+repository.BookRepository --> model.Book
+repository.MemberRepository --> model.Member
+repository.LoanRepository --> model.Loan
+
+
+
+
 class Controller {
 + {static} void main(String[])
 }
 
+class repository.LoanRepository {
+- Loan loan
++ <<Create>> LoanRepository(Loan)
++ boolean isReturned()
++ boolean isOverdue()
++ void fine()
+}
+
+
 class model.Book {
 - String title
+- String author
+- int publicationYear
+- String isbn
+- boolean archived
+- Long id
+~ {static} AtomicLong atomicLongBook
 + <<Create>> Book(String)
++ <<Create>> Book(String,String,int,String)
 + String getTitle()
 + void setTitle(String)
++ String getAuthor()
++ void setAuthor(String)
++ int getPublicationYear()
++ void setPublicationYear(int)
++ String getIsbn()
++ void setIsbn(String)
 + String toString()
+}
+
+
+class service.LoanService {
+- LoanRepository loanRepository
++ <<Create>> LoanService(LoanService)
+}
+
+
+class repository.MemberRepository {
+- List<Member> members
++ void save(Member)
++ void deleteById(Long)
++ Optional<Member> findById(Long)
++ List<Member> findAll()
+}
+
+
+enum model.LoanStatus {
++  ACTIVE
++  RETURNED
++  OVERDUE
+}
+note left of model.LoanStatus::ACTIVE
+ Boek is uitgeleend
+end note
+note right of model.LoanStatus::RETURNED
+ Boek is teruggebracht
+end note
+note left of model.LoanStatus::OVERDUE
+ Boek is te laat, niet teruggebracht
+end note
+
+class Main.LibrarySystemMain {
++ {static} void main(String[])
 }
 
 class service.BookService {
 - BookRepository bookRepository
-+ <<Create>> BookService()
++ <<Create>> BookService(BookRepository)
 + List<Book> getBooks()
 + void addBook(Book)
++ int countCopies(String)
++ int countAvailableCopies(String)
++ Book searchBook(String,String,int)
++ Book searchBook(String)
 }
+
 
 class repository.BookRepository {
 ~ List<Book> books
 + <<Create>> BookRepository()
 + void addBook(Book)
 + List<Book> getBooks()
++ Optional<Book> searchBook(String,String,int)
++ Optional<Book> searchBook(String)
++ int countCopies(String)
 }
 
-Controller -> BookService
-BookService -> BookRepository
-BookRepository -> Book
+
+class model.Loan {
+- Date loanDate
+- Date dueDate
+- Date returnDate
+- boolean status
+- Book book
+- Member member
++ <<Create>> Loan(Book,Member,Date,Date)
++ Date getLoanDate()
++ void setLoanDate(Date)
++ Date getDueDate()
++ void setDueDate(Date)
++ Date getReturnDate()
++ void setReturnDate(Date)
++ boolean isStatus()
++ void setStatus(boolean)
++ boolean equals(Object)
++ int hashCode()
++ String toString()
+}
+
+
+class model.Member {
+- String name
+- int age
+- String memberId
+- String email
++ <<Create>> Member(String,int,String,String)
++ String getName()
++ void setName(String)
++ int getAge()
++ void setAge(int)
++ String getMemberId()
++ void setMemberId(String)
++ String getEmail()
++ void setEmail(String)
++ boolean equals(Object)
++ int hashCode()
++ String toString()
+}
+note left of model.Member::memberId
+ Unique ID "
+end note
+
+
+class service.MemberService {
+- MemberRepository memberRepository
++ <<Create>> MemberService(MemberRepository)
++ void addMember(Member)
++ void removeMember(Long)
++ List<Member> listMembers()
+}
+
+note left of service.MemberService::addMember(Member)
+ adding a member
+end note
+note right of service.MemberService::removeMember(Long)
+ remove a member
+end note
+note left of service.MemberService::listMembers()
+ Lister tous les membres
+end note
 
 @enduml
