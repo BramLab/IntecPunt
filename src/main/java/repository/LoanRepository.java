@@ -1,8 +1,6 @@
 package repository;
 import model.Loan;
 import model.LoanStatus;
-
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
