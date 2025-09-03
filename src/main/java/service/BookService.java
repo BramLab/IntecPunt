@@ -60,9 +60,7 @@ public class BookService {
     }
 
     public int countAvailableCopies(String isbn){
-        int unavailableBooks = 1;// get from loans
-        //loanService.
-        return countAllCopies(isbn)-unavailableBooks;
+        return countAllCopies(isbn) - loanService.countNonreturnedCopies(isbn);
     }
 
 }

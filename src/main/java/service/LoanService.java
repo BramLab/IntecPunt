@@ -4,7 +4,10 @@ import model.Loan;
 import model.LoanStatus;
 import model.Member;
 import repository.LoanRepository;
+
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 public class LoanService {
@@ -24,8 +27,12 @@ public class LoanService {
 
         Loan loan = new Loan(loanDate, dueDate, book, member);
         //book.decrementAvailableCopies();
-        //loanRepository.addLoan(loan);
+        loanRepository.addLoan(loan);
         return loan;
+    }
+
+    public List<Loan> findAll() {
+        return loanRepository.getAllLoans();
     }
 
     public int countNonreturnedCopies(String isbn){

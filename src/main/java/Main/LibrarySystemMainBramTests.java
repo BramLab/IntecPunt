@@ -51,21 +51,20 @@ public class LibrarySystemMainBramTests {
         System.out.println("\nbookService.countAllCopies(title, author, pubyear) : " + bookService.countAllCopies("a habbit", "uuig", 2015));
         System.out.println("\nbookService.countAllCopies(title, author, pubyear) : " + bookService.countAllCopies("Malcom x", null, 0));
 
-
         // Test members:
         System.out.println("\nTest members:");
         memberService.addMember(m1);
         System.out.println(Arrays.toString(memberService.listMembers().toArray()));
 
-        // Test loans:
+        // Test loans/books:
         System.out.println("\nTest loans:");
         Book bookHobbit = bookService.searchBook("De Hobbit", "John Ronald Reuel Tolkien", 2015);
         loanService.createLoan(bookHobbit, m1, 10);
-        loanService.
-        System.out.println("\nbookService.countAllCopies of the hobbit: " + bookService.countAllCopies(bookHobbit.getIsbn()));
-        System.out.println("CountLoans hobbit: " + loanService.countNonreturnedCopies(bookHobbit.getIsbn()));
 
-
+        System.out.println("loanService.findAll(): " + Arrays.toString(loanService.findAll().toArray()));
+        System.out.println("countAllCopies of the hobbit: " + bookService.countAllCopies(bookHobbit.getIsbn()));
+        System.out.println("countNonreturnedCopies hobbit: " + loanService.countNonreturnedCopies(bookHobbit.getIsbn()));
+        System.out.println("countAvailableCopies hobbit: " + bookService.countAvailableCopies(bookHobbit.getIsbn()));
 
     }
 }
