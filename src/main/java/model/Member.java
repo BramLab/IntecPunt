@@ -60,11 +60,6 @@ public class Member {
 
     @Override
     public String toString() {
-        return "Member{" +
-                "name='" + name + '\'' +
-                ", age=" + age +
-                ", memberId='" + memberId + '\'' +
-                ", email='" + email + '\'' +
-                '}';
+        return "Member name= " + name + ", age=" + age + ", memberId= " + memberId + ", email=" + email;
     }
 }
