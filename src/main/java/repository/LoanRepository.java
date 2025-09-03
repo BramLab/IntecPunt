@@ -21,7 +21,7 @@ public class LoanRepository {
     public List<Loan> getLoansByMemberId(String memberId) {
         List<Loan> result = new ArrayList<>();
         for (Loan loan: loans) {
-            if (loan.getMember().getId().equals(memberId)) { //Memberclass needs getId() in getters, or similar
+            if (loan.getMember().getMemberId().equals(memberId)) { //Memberclass needs getId() in getters, or similar
                 result.add(loan);
             }
         }
