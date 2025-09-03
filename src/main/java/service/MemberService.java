@@ -1,5 +1,6 @@
 package service;
 
+import model.Member;
 import repository.MemberRepository;
 import model.Member;
 

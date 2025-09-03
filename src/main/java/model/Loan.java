@@ -1,56 +1,68 @@
 package model;
-import model.Member;
-import java.time.LocalDate;
 import java.util.Date;
 import java.util.Objects;
 
 public class Loan {
 
-    private long loanID;
-    private LocalDate loanDate;   // datum boek wordt ontleend
-    private LocalDate dueDate;        // vervaldatum
-    private LocalDate returnDate;    //datum terugbrengen
+    private Date loanDate;
+    private Date dueDate;
+    private Date returnDate;
     private LoanStatus status;
-    private Member member;
     private Book book;
-    //private Member member;
+    private Member member;
 
-    public Loan(long loanID, Member member, Book book) {
-        this.loanID = loanID;
+    public Loan(Date loanDate, Date dueDate, Book book, Member member) {
+        this.loanDate = loanDate;
+        this.dueDate = dueDate;
+        this.book = book;
         this.member = member;
-        this.book= book;
-        this.loanDate = LocalDate.now();
-        this.dueDate = loanDate.plusDays(14);
-        this.status= LoanStatus.ACTIVE;
+        this.status = LoanStatus.ACTIVE;
     }
 
-    public long getLoanID() {        return loanID;    }
-    public void setLoanID(long loanID) {        this.loanID = loanID;    }
-    public LocalDate getLoanDate() {        return loanDate;    }
-    public void setLoanDate(LocalDate loanDate) {        this.loanDate = loanDate;    }
-    public LocalDate getDueDate() {        return dueDate;    }
-    public void setDueDate(LocalDate dueDate) {        this.dueDate = dueDate;    }
-    public LocalDate getReturnDate() {        return returnDate;    }
-    public void setReturnDate(LocalDate returnDate) {        this.returnDate = returnDate;    }
-    public LoanStatus getStatus() {  return status;     }
-    public void setStatus(LoanStatus status) {  this.status = status;    }
+    public Date getLoanDate() {        return loanDate;    }
+    public void setLoanDate(Date loanDate) {        this.loanDate = loanDate;    }
+    public Date getDueDate() {        return dueDate;    }
+    public void setDueDate(Date dueDate) {        this.dueDate = dueDate;    }
+    public Date getReturnDate() {        return returnDate;    }
+    public LoanStatus getStatus() {        return status;    }
+    public void setStatus(LoanStatus status) {        this.status = status;    }
+    public Book getBook() {        return book;    }
+    public Member getMember() {        return member;    }
 
+    public void setReturnDate(Date returnDate) {
+        this.returnDate = returnDate;
+        this.status = LoanStatus.RETURNED;
+    }
 
+    public boolean isOverdue() {
+        return status == LoanStatus.ACTIVE && new Date().after(dueDate);
+    }
 
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Loan loan = (Loan) o;
-        return Objects.equals(loanID, loan.loanID) && Objects.equals(loanDate, loan.loanDate) && Objects.equals(dueDate, loan.dueDate) && Objects.equals(returnDate, loan.returnDate);
+        return Objects.equals(loanDate, loan.loanDate) &&
+                Objects.equals(dueDate, loan.dueDate) &&
+                Objects.equals(returnDate, loan.returnDate) &&
+                Objects.equals(book, loan.book) &&
+                Objects.equals(member, loan.member);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(loanID, loanDate, dueDate, returnDate);
+        return Objects.hash(loanDate, dueDate, returnDate, status, book, member);
     }
 
     @Override
     public String toString() {
-        return "loanID: "+loanID+", loanDate at: "+loanDate+", dueDate at: " + dueDate;
+        return "Loan{" +
+                "loanDate=" + loanDate +
+                ", dueDate=" + dueDate +
+                ", returnDate=" + returnDate +
+                ", status=" + status +
+                ", book=" + book +
+                ", member=" + member +
+                '}';
     }
 }

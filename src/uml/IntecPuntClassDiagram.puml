@@ -16,20 +16,19 @@ class Member {
 }
 
 class Loan {
-  - loanID String
   - loanDate: Date
   - dueDate : Date
   - returnDate: Date
-  - status : Enum
-  - memberId : Long
-  - bookId : Long
+  - status : boolean
+  - memberId : long
+  - bookId : long
   }
 }
 
 Package "Service" {
 
 class MemberService {
-  - MemberRepository : membeRepository
+  - MemberRepository : memberRepository
   + addMember(Member)
   + removeMember(Long)
   + listMembers()
@@ -44,9 +43,9 @@ class BookService {
   }
 class LoanService {
   - LoanRepository : loanRepository
-  + loanBook(Long mId, Long bId)
-  + returnBook(Long loanId)
-  +calculteFine(Long loanId)
+  + loanBook(book: Book)
+  + returnBook(book: Book)
+  + calculateFine(Date dueDate, Date returnDate)
   }
 }
 

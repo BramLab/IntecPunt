@@ -1,15 +1,21 @@
 package model;
 
+import java.util.concurrent.atomic.AtomicLong;
+
 public class Book {
     private String title;
     private String author;
     private int publicationYear;
     private String isbn;
+    private boolean isArchived;
+    private Long id;
     //- totalCopies: int -> service
     // availableCopies: int -> service
 
+    static AtomicLong atomicLongBook = new AtomicLong(1);
+
     public Book(String title) {
-        this.title = title;
+        this(title, null, 0, null);
     }
 
     public Book(String title, String author, int publicationYear, String isbn) {
@@ -17,6 +23,7 @@ public class Book {
         this.author = author;
         this.publicationYear = publicationYear;
         this.isbn = isbn;
+        this.id = atomicLongBook.getAndIncrement();
     }
 
     public String getTitle() {
@@ -53,8 +60,14 @@ public class Book {
 
     @Override
     public String toString() {
-        return "title van boek= " + title + ", author= " + author + ", publicationYear=" + publicationYear +
-                ", isbn= " + isbn;
+        return "\nBook{" +
+                "title='" + title + '\'' +
+                ", author='" + author + '\'' +
+                ", publicationYear=" + publicationYear +
+                ", isbn='" + isbn + '\'' +
+                ", isArchived='" + isArchived + '\'' +
+                ", id='" + id + '\'' +
+                "}";
     }
 
 }
