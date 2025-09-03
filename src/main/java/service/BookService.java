@@ -9,8 +9,8 @@ import java.util.Optional;
 public class BookService {
     private BookRepository bookRepository;
 
-    public BookService() {
-        this.bookRepository = new BookRepository();
+    public BookService(BookRepository bookRepository) {
+        this.bookRepository = bookRepository;
     }
 
     public List<Book> getBooks(){
@@ -26,8 +26,14 @@ public class BookService {
 //    }
 
 
-    public int countCopies(Book book){
-        return bookRepository.countCopies(book); //repo seems best placed to count, no need to get list of book objects of same book.
+    public int countCopies(String isbn){
+        return bookRepository.countCopies(isbn); //repo seems best placed to count, no need to get list of book objects of same book.
+    }
+
+    public int countAvailableCopies(String isbn){
+        //Complex: unavailable comes from loans
+        int unavailableBooks = 1;
+        return countCopies(isbn)-unavailableBooks;
     }
 
     public Book searchBook(String title, String author, int yearOfPublication){
@@ -42,12 +48,6 @@ public class BookService {
         // Book book = optionalBook.isPresent() ? optionalBook.get() : null;
         // Can be replaced with single expression in functional style
         return optionalBook.orElse(null);
-    }
-
-    public int countAvailableCopies(Book book){
-        //Complex: unavailable comes from loans
-        int unavailableBooks = 1;
-        return countCopies(book)-unavailableBooks;
     }
 
 }

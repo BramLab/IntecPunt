@@ -12,7 +12,7 @@ public class LoanRepository {
     // evt aantal leningobjecten aanmaken hierboven
 
 
-    public
+    //public
 
 
 
@@ -22,7 +22,7 @@ public class LoanRepository {
     }
 
     public boolean isOverdue() {
-
+        return true;
     }
 
     public void fine() {

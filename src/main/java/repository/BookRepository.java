@@ -10,13 +10,10 @@ import java.util.Optional;
 public class BookRepository {
     List<Book> books = new ArrayList();
 
-
     public BookRepository() {
-        // read file with list of books, and put them in book list.
-        // If a book is added as a copy of a book, but with "new Book", then it is considered as another book.
-        Book book = new Book("De Hobbit", "John Ronald Reuel Tolkien", 2015, "9789022575512");
-        addBook(book);
-        addBook(book);
+        // Could/should be: read file with list of books, and put them in book list.
+        addBook(new Book("De Hobbit", "John Ronald Reuel Tolkien", 2015, "9789022575512"));
+        addBook(new Book("De Hobbit", "John Ronald Reuel Tolkien", 2015, "9789022575512"));
         addBook(new Book("Heer Belisarius", "Robert Graves", 2010, "9789067282451"));
     }
 
@@ -40,8 +37,8 @@ public class BookRepository {
                 .findAny();
     }
 
-    public int countCopies(Book book){
-        return Collections.frequency(books, book);
+    public int countCopies(String isbn){
+        return (int) books.stream().filter(b -> b.getIsbn().equals(isbn)).count();
     }
 
 }
