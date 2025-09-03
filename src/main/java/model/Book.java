@@ -60,14 +60,14 @@ public class Book {
 
     @Override
     public String toString() {
-        return "Book{" +
+        return "\nBook{" +
                 "title='" + title + '\'' +
                 ", author='" + author + '\'' +
                 ", publicationYear=" + publicationYear +
                 ", isbn='" + isbn + '\'' +
                 ", isArchived='" + isArchived + '\'' +
                 ", id='" + id + '\'' +
-                '}';
+                "}";
     }
 
 }

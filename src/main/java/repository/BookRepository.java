@@ -2,10 +2,7 @@ package repository;
 
 import model.Book;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 public class BookRepository {
     List<Book> books = new ArrayList();
@@ -38,7 +35,10 @@ public class BookRepository {
     }
 
     public int countCopies(String isbn){
-        return (int) books.stream().filter(b -> b.getIsbn().equals(isbn)).count();
+        return (int) books.stream()
+                .filter(b-> Objects.nonNull(b.getIsbn()))
+                .filter(b -> b.getIsbn().equals(isbn))
+                .count();
     }
 
 }
