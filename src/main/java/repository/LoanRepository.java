@@ -9,6 +9,8 @@ public class LoanRepository {
 
     private final List<Loan> loans = new ArrayList<>();
 
+    public LoanRepository() {}
+
     public void addLoan(Loan loan) {
         loans.add(loan);
     }
