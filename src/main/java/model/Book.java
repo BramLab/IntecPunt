@@ -7,15 +7,15 @@ public class Book {
     private String author;
     private int publicationYear;
     private String isbn;
-    private boolean isArchived;
-    private Long id;
+    private boolean isSoftDeleted;
+    private final Long id;
     //- totalCopies: int -> service
     // availableCopies: int -> service
 
-    static AtomicLong atomicLongBook = new AtomicLong(1);
+    static final AtomicLong atomicLongBook = new AtomicLong(1);
 
     public Book(String title) {
-        this(title, null, 0, null);
+        this(title, "", 0, "");
     }
 
     public Book(String title, String author, int publicationYear, String isbn) {
@@ -24,6 +24,7 @@ public class Book {
         this.publicationYear = publicationYear;
         this.isbn = isbn;
         this.id = atomicLongBook.getAndIncrement();
+        this.isSoftDeleted = false;
     }
 
     public String getTitle() {
@@ -58,6 +59,18 @@ public class Book {
         this.isbn = isbn;
     }
 
+    public boolean isSoftDeleted() {
+        return isSoftDeleted;
+    }
+
+    public void setSoftDeleted(boolean softDeleted) {
+        isSoftDeleted = softDeleted;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
     @Override
     public String toString() {
         return "\nBook{" +
@@ -65,7 +78,7 @@ public class Book {
                 ", author='" + author + '\'' +
                 ", publicationYear=" + publicationYear +
                 ", isbn='" + isbn + '\'' +
-                ", isArchived='" + isArchived + '\'' +
+                ", isSoftDeleted='" + isSoftDeleted + '\'' +
                 ", id='" + id + '\'' +
                 "}";
     }
