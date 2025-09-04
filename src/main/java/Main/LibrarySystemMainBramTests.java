@@ -7,6 +7,7 @@ import repository.BookRepository;
 import repository.LoanRepository;
 import repository.MemberRepository;
 import service.BookService;
+import service.LoanService;
 import service.MemberService;
 
 import java.util.Arrays;
@@ -28,6 +29,8 @@ public class LibrarySystemMainBramTests {
         //Maak Services
         BookService bookService = new BookService(bookRepository);
         MemberService memberService = new MemberService(memberRepository);
+        LoanService loanService = new LoanService(loanRepository);
+        bookService.setLoanService(loanService);
 
         // Voeg enkele boeken toe zonder isbn
         bookService.addBook(new Book("OCA java 8"));
@@ -42,14 +45,26 @@ public class LibrarySystemMainBramTests {
         book = bookService.searchBook("9789067282451");
         System.out.println("\nbookService.searchBook(isbn): " + book);
 
-        System.out.println("\nbookService.countCopies: " + bookService.countCopies("9789022575512"));
+        System.out.println("\nbookService.countAllCopies: " + bookService.countAllCopies("9789022575512"));
 
-//        Loan loan = new Loan(b1," ",b1);
-//        loan.setLoanDate(LocalDate.now());
-//        loan.setDueDate(loan.getLoanDate().plusDays(14));
-//        loan.setReturnDate(LocalDate.now());
-//        loan.setStatus(LoanStatus.RETURNED);
+        System.out.println("\nbookService.countAllCopies(title, author, pubyear) : " + bookService.countAllCopies("De Hobbit", "John Ronald Reuel Tolkien", 2015));
+        System.out.println("\nbookService.countAllCopies(title, author, pubyear) : " + bookService.countAllCopies("a habbit", "uuig", 2015));
+        System.out.println("\nbookService.countAllCopies(title, author, pubyear) : " + bookService.countAllCopies("Malcom x", null, 0));
 
+        // Test members:
+        System.out.println("\nTest members:");
+        memberService.addMember(m1);
+        System.out.println(Arrays.toString(memberService.listMembers().toArray()));
+
+        // Test loans/books:
+        System.out.println("\nTest loans/books:");
+        Book bookHobbit = bookService.searchBook("De Hobbit", "John Ronald Reuel Tolkien", 2015);
+        loanService.createLoan(bookHobbit, m1, 10);
+
+        System.out.println("loanService.findAll(): " + Arrays.toString(loanService.findAll().toArray()));
+        System.out.println("countAllCopies of the hobbit: " + bookService.countAllCopies(bookHobbit.getIsbn()));
+        System.out.println("countNonreturnedCopies hobbit: " + loanService.countNonreturnedCopies(bookHobbit.getIsbn()));
+        System.out.println("countAvailableCopies hobbit: " + bookService.countAvailableCopies(bookHobbit.getIsbn()));
 
     }
 }

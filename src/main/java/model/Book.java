@@ -8,11 +8,11 @@ public class Book {
     private int publicationYear;
     private String isbn;
     private boolean isArchived;
-    private Long id;
+    private final Long id;
     //- totalCopies: int -> service
     // availableCopies: int -> service
 
-    static AtomicLong atomicLongBook = new AtomicLong(1);
+    static final AtomicLong atomicLongBook = new AtomicLong(1);
 
     public Book(String title) {
         this(title, null, 0, null);
@@ -24,6 +24,7 @@ public class Book {
         this.publicationYear = publicationYear;
         this.isbn = isbn;
         this.id = atomicLongBook.getAndIncrement();
+        this.isArchived = false;
     }
 
     public String getTitle() {
@@ -56,6 +57,18 @@ public class Book {
 
     public void setIsbn(String isbn) {
         this.isbn = isbn;
+    }
+
+    public boolean isArchived() {
+        return isArchived;
+    }
+
+    public void setArchived(boolean archived) {
+        isArchived = archived;
+    }
+
+    public Long getId() {
+        return id;
     }
 
     @Override

@@ -17,46 +17,50 @@ repository.MemberRepository --> model.Member
 repository.LoanRepository --> model.Loan
 
 
-
-
-class Controller {
+class Main.LibrarySystemMainBramTests {
 + {static} void main(String[])
 }
 
-class repository.LoanRepository {
-- Loan loan
-+ <<Create>> LoanRepository(Loan)
-+ boolean isReturned()
+class model.Loan {
+- Date loanDate
+- Date dueDate
+- Date returnDate
+- LoanStatus status
+- Book book
+- Member member
++ <<Create>> Loan(Date,Date,Book,Member)
++ Date getLoanDate()
++ void setLoanDate(Date)
++ Date getDueDate()
++ void setDueDate(Date)
++ Date getReturnDate()
++ LoanStatus getStatus()
++ void setStatus(LoanStatus)
++ Book getBook()
++ Member getMember()
++ void setReturnDate(Date)
 + boolean isOverdue()
-+ void fine()
-}
-
-
-class model.Book {
-- String title
-- String author
-- int publicationYear
-- String isbn
-- boolean archived
-- Long id
-~ {static} AtomicLong atomicLongBook
-+ <<Create>> Book(String)
-+ <<Create>> Book(String,String,int,String)
-+ String getTitle()
-+ void setTitle(String)
-+ String getAuthor()
-+ void setAuthor(String)
-+ int getPublicationYear()
-+ void setPublicationYear(int)
-+ String getIsbn()
-+ void setIsbn(String)
++ boolean equals(Object)
++ int hashCode()
 + String toString()
 }
 
 
-class service.LoanService {
-- LoanRepository loanRepository
-+ <<Create>> LoanService(LoanService)
+class service.BookService {
+- BookRepository bookRepository
+- LoanService loanService
++ <<Create>> BookService(BookRepository)
++ void setLoanService(LoanService)
++ List<Book> getBooks()
++ void addBook(Book)
++ void deleteBook(Book)
++ void deleteBook(Long)
++ Book searchBook(String,String,int)
++ Book searchBook(String)
++ Book searchBook(Long)
++ int countAllCopies(String,String,int)
++ int countAllCopies(String)
++ int countAvailableCopies(String)
 }
 
 
@@ -74,62 +78,55 @@ enum model.LoanStatus {
 +  RETURNED
 +  OVERDUE
 }
-note left of model.LoanStatus::ACTIVE
- Boek is uitgeleend
-end note
-note right of model.LoanStatus::RETURNED
- Boek is teruggebracht
-end note
-note left of model.LoanStatus::OVERDUE
- Boek is te laat, niet teruggebracht
-end note
 
 class Main.LibrarySystemMain {
 + {static} void main(String[])
 }
 
-class service.BookService {
-- BookRepository bookRepository
-+ <<Create>> BookService(BookRepository)
-+ List<Book> getBooks()
-+ void addBook(Book)
-+ int countCopies(String)
-+ int countAvailableCopies(String)
-+ Book searchBook(String,String,int)
-+ Book searchBook(String)
+class service.LoanService {
+- LoanRepository loanRepository
++ <<Create>> LoanService(LoanRepository)
++ Loan createLoan(Book,Member,int)
++ List<Loan> findAll()
++ int countNonreturnedCopies(String)
++ void returnBook(Loan)
++ double checkFine(Loan)
 }
 
 
-class repository.BookRepository {
-~ List<Book> books
-+ <<Create>> BookRepository()
-+ void addBook(Book)
-+ List<Book> getBooks()
-+ Optional<Book> searchBook(String,String,int)
-+ Optional<Book> searchBook(String)
-+ int countCopies(String)
-}
-
-
-class model.Loan {
-- Date loanDate
-- Date dueDate
-- Date returnDate
-- boolean status
-- Book book
-- Member member
-+ <<Create>> Loan(Book,Member,Date,Date)
-+ Date getLoanDate()
-+ void setLoanDate(Date)
-+ Date getDueDate()
-+ void setDueDate(Date)
-+ Date getReturnDate()
-+ void setReturnDate(Date)
-+ boolean isStatus()
-+ void setStatus(boolean)
-+ boolean equals(Object)
-+ int hashCode()
+class model.Book {
+- String title
+- String author
+- int publicationYear
+- String isbn
+- boolean isArchived
+- Long id
+~ {static} AtomicLong atomicLongBook
++ <<Create>> Book(String)
++ <<Create>> Book(String,String,int,String)
++ String getTitle()
++ void setTitle(String)
++ String getAuthor()
++ void setAuthor(String)
++ int getPublicationYear()
++ void setPublicationYear(int)
++ String getIsbn()
++ void setIsbn(String)
++ boolean isArchived()
++ void setArchived(boolean)
++ Long getId()
 + String toString()
+}
+
+
+class repository.LoanRepository {
+- List<Loan> loans
++ void addLoan(Loan)
++ List<Loan> getAllLoans()
++ List<Loan> getLoansByMemberId(String)
+~ boolean isReturned(Loan)
++ boolean isOverdue(Loan)
++ double calculateFine(Loan)
 }
 
 
@@ -151,9 +148,6 @@ class model.Member {
 + int hashCode()
 + String toString()
 }
-note left of model.Member::memberId
- Unique ID "
-end note
 
 
 class service.MemberService {
@@ -164,14 +158,19 @@ class service.MemberService {
 + List<Member> listMembers()
 }
 
-note left of service.MemberService::addMember(Member)
- adding a member
-end note
-note right of service.MemberService::removeMember(Long)
- remove a member
-end note
-note left of service.MemberService::listMembers()
- Lister tous les membres
-end note
+
+class repository.BookRepository {
+~ List<Book> books
++ <<Create>> BookRepository()
++ void addBook(Book)
++ List<Book> getBooks()
++ List<Book> findAll()
++ Optional<Book> searchBook(String,String,int)
++ Optional<Book> searchBook(String)
++ Optional<Book> searchBook(Long)
++ int countAllCopies(String)
++ int countAllCopies(String,String,int)
+}
+
 
 @enduml
