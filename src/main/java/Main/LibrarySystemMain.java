@@ -30,10 +30,6 @@ public class LibrarySystemMain {
         loanService.setBookService(bookService);
         bookService.setLoanService(loanService);
 
-        // Add some books with and without isbn.
-        bookService.addBook(new Book("OCA java 8"));
-        bookService.addBook(new Book("Harry Potter"));
-        bookService.addBook(new Book("Malcom x"));
         bookService.addBook(new Book("De Hobbit", "John Ronald Reuel Tolkien", 2015, "9789022575512"));
         bookService.addBook(new Book("De Hobbit", "John Ronald Reuel Tolkien", 2015, "9789022575512"));
         bookService.addBook(new Book("De Hobbit", "John Ronald Reuel Tolkien", 2015, "9789022575512"));
@@ -73,7 +69,7 @@ public class LibrarySystemMain {
 
 
         // Test loans/books:
-        System.out.println("\nTest loans/books:");
+        System.out.println("\n\u200B\uD83E\uDDFE\u200BTest loans/books:");
         Book bookHobbit = bookService.searchBook("De Hobbit", "John Ronald Reuel Tolkien", 2015);
         loanService.createLoan(bookHobbit, m1, 10);
 
