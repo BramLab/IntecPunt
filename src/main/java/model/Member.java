@@ -5,10 +5,10 @@ import java.util.Objects;
 public class Member {
     private String name;
     private int age;
-    private String memberId; // Unique ID "
+    private Long memberId; // Unique ID "
     private String email;
 
-    public Member(String name, int age, String email, String memberId) {
+    public Member(String name, int age, String email, Long memberId) {
         this.name = name;
         this.age = age;
         this.email = email;
@@ -19,8 +19,8 @@ public class Member {
     public void setName(String name) {        this.name = name;    }
     public int getAge() {        return age;    }
     public void setAge(int age) {        this.age = age;    }
-    public String getMemberId() {        return memberId;    }
-    public void setMemberId(String memberId) {        this.memberId = memberId;    }
+    public Long getMemberId() {        return memberId;    }
+    public void setMemberId(Long memberId) {        this.memberId = memberId;    }
     public String getEmail() {        return email;    }
     public void setEmail(String email) {        this.email = email;    }
 

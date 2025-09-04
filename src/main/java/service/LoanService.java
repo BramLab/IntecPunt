@@ -3,6 +3,7 @@ import model.Book;
 import model.Loan;
 import model.LoanStatus;
 import model.Member;
+import repository.BookRepository;
 import repository.LoanRepository;
 
 import java.util.ArrayList;
@@ -13,13 +14,19 @@ import java.util.Objects;
 public class LoanService {
 
     private final LoanRepository loanRepository;
+    BookRepository bookRepository = new BookRepository();
+    BookService bookService;
 
     public LoanService(LoanRepository loanRepository) {
         this.loanRepository = loanRepository;
     }
 
+    public void setBookService(BookService bookService){
+        this.bookService = bookService;
+    }
+
     public Loan createLoan(Book book, Member member, int loanDays) {
-        BookService bookService = new BookService();
+        //BookService bookService = new BookService(bookRepository);
         int availableCopies = bookService.countAvailableCopies(book.getIsbn());
 
         if (availableCopies <= 0) {
