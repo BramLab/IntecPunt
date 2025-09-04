@@ -4,6 +4,7 @@ import model.Member;
 import repository.MemberRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 public class MemberService {
     private MemberRepository memberRepository;
@@ -19,10 +20,13 @@ public class MemberService {
     public void removeMember(Long id) {
         memberRepository.deleteById(id);
     }
-    // Lister tous les membres
+    // give all members
     public List<Member> listMembers() {
         return memberRepository.findAll();
     }
 
+    public Optional<Member> getMemberById(Long id) {
+        return memberRepository.findById(id);
+    }
 
 }

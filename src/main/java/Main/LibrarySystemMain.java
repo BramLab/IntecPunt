@@ -67,6 +67,18 @@ public class LibrarySystemMain {
         memberService.removeMember(1234L);
         System.out.println(" new member list after delete: " + memberRepository.findAll());
 
+        // 🔎 Test findById
+        System.out.println("\n🔎 Test findById:");
+        memberService.getMemberById(2468L).ifPresentOrElse(
+                member -> System.out.println("Oh member find !!!!: " + member),
+                () -> System.out.println("No members find with this Id ")
+        );
+
+        memberService.getMemberById(9999L).ifPresentOrElse(
+                member -> System.out.println("Membre trouvé: " + member),
+                () -> System.out.println("No members find with this ID ")
+        );
+
 
         // Test loans/books:
         System.out.println("\n  \u200B\uD83E\uDDFE\u200BTEST LOANS/BOOKS:");
