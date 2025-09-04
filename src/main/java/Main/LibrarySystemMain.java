@@ -69,52 +69,50 @@ public class LibrarySystemMain {
 
 
         // Test loans/books:
-        System.out.println("\n\u200B\uD83E\uDDFE\u200BTest loans/books:");
+        System.out.println("\n  \u200B\uD83E\uDDFE\u200BTEST LOANS/BOOKS:");
         Book bookHobbit = bookService.searchBook("De Hobbit", "John Ronald Reuel Tolkien", 2015);
+        System.out.println("BookHobbit:                                " + bookHobbit);
         loanService.createLoan(bookHobbit, m1, 10);
-
-        System.out.println("loanService.findAll(): " + Arrays.toString(loanService.findAll().toArray()));
-        System.out.println("bookService.countAllCopies of the hobbit: " + bookService.countAllCopies(bookHobbit.getIsbn()));
+        System.out.println("loanService.findAll():                     " + Arrays.toString(loanService.findAll().toArray()));
+        System.out.println("bookService.countAllCopies of the hobbit:  " + bookService.countAllCopies(bookHobbit.getIsbn()));
         System.out.println("loanService.countNonreturnedCopies hobbit: " + loanService.countNonreturnedCopies(bookHobbit.getIsbn()));
-        System.out.println("bookService.countAvailableCopies hobbit: " + bookService.countAvailableCopies(bookHobbit.getIsbn()));
-
+        System.out.println("bookService.countAvailableCopies hobbit:   " + bookService.countAvailableCopies(bookHobbit.getIsbn()));
         System.out.println("bookService.countAllCopies of nonexisting: " + bookService.countAllCopies("123"));
 
+
+        //bookService.getBooksIncludingSoftDeleted
+        //System.out.println("\n*** bookService.getBooksIncludingSoftDeleted: " + bookService.getBooksIncludingSoftDeleted());
+
         // Test softDelete (depends on isBookInLoan), so test that also:
-        System.out.println("\nTest softDelete. Should not be possible if in loan & not RETURNED yet.");
+        System.out.println("\n\n  TEST SOFTDELETE of unreturned book in loan; should not be possible.");
+        System.out.println("bookService.searchBook(1L): " + bookService.searchBook(1L));
+        System.out.println("isBookInLoan 1L: " + loanService.isBookInLoan(1L));
+        System.out.println("-> Now try softdelete 1L - is in loan: ");
+        bookService.softDeleteBook(1L);
+        System.out.println("bookService.searchBook(1L): " + bookService.searchBook(1L));
+        System.out.println("isBookInLoan 1L: " + loanService.isBookInLoan(1L));
+        System.out.println("softdelete 1L not succeeded, as expected because in loan!");
 
-        System.out.println("bookService.searchBook(5L): " + bookService.searchBook(5L));
-        System.out.println("isBookInLoan 5L: " + loanService.isBookInLoan(5L));
+        System.out.println("\n\n  TEST SOFTDELETE of book not in loan; should be possible.");
+        System.out.println("bookService.searchBook(2L): " + bookService.searchBook(2L));
+        System.out.println("isBookInLoan 2L: " + loanService.isBookInLoan(2L));
+        System.out.println("-> Now softdelete 2L, which is not in loan: ");
+        bookService.softDeleteBook(2L);
+        System.out.println("bookService.searchBook(2L): " + bookService.searchBook(2L));
+        System.out.println("softdelete 2L HAS succeeded!");
 
-        System.out.println("bookService.searchBook(6L): " + bookService.searchBook(6L));
-        System.out.println("isBookInLoan 6L: " + loanService.isBookInLoan(6L));
-
-        System.out.println("\nNow softdelete 5L - which is in loan: ");
-        bookService.softDeleteBook(5L);
-        System.out.println("bookService.searchBook(5L): " + bookService.searchBook(5L));
-        System.out.println("isBookInLoan 5L: " + loanService.isBookInLoan(5L));
-        System.out.println("softdelete 5L not succeeded, as expected as in loan!");
-
-        System.out.println("\nNow softdelete 6L, which is not in loan: ");
-        bookService.softDeleteBook(6L);
-        System.out.println("bookService.searchBook(6L): " + bookService.searchBook(6L));
-        System.out.println("isBookInLoan 6L: " + loanService.isBookInLoan(6L));
-        System.out.println("softdelete 6L HAS succeeded!");
-
-
-        System.out.println("\n\nbookService.getBooks: " + bookService.getBooks());
-        System.out.println("\nbookService.getBooksIncludingSoftDeleted: " + bookService.getBooksIncludingSoftDeleted());
-
-        System.out.println("\nloanService.findAll(): " + Arrays.toString(loanService.findAll().toArray()));
-        System.out.println("bookService.countAllCopies of the hobbit: " + bookService.countAllCopies(bookHobbit.getIsbn()));
+        System.out.println("\n\n  TEST COUNT OF BOOKS.");
+        System.out.println("1) bookService.getBooks: " + bookService.getBooks());
+        System.out.println("\n2) bookService.getBooksIncludingSoftDeleted: " + bookService.getBooksIncludingSoftDeleted());
+        System.out.println("\n3) loanService.findAll(): " + Arrays.toString(loanService.findAll().toArray()));
+        System.out.println("bookService.countAllCopies of the hobbit:  " + bookService.countAllCopies(bookHobbit.getIsbn()));
         System.out.println("loanService.countNonreturnedCopies hobbit: " + loanService.countNonreturnedCopies(bookHobbit.getIsbn()));
-        System.out.println("bookService.countAvailableCopies hobbit: " + bookService.countAvailableCopies(bookHobbit.getIsbn()));
+        System.out.println("bookService.countAvailableCopies hobbit:   " + bookService.countAvailableCopies(bookHobbit.getIsbn()));
 
+        //loanService.returnBook();
 
-        System.out.println("LoanService tests ");
-
+        System.out.println("\n\n  LOANSERVICE TEST ");
         Book b1 = bookService.searchBook(4L);
-        //Member m1 = new Member("Bram", 64, "bram.labarque@gmail.com", 5L);
         Loan loan01 = new Loan(new Date(), new Date(2025,10,1),b1, m1);
         loan01.setLoanDate(new Date());
         loan01.setStatus(LoanStatus.RETURNED);
