@@ -4,6 +4,7 @@ import model.Member;
 import repository.MemberRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 public class MemberService {
     private MemberRepository memberRepository;
@@ -24,5 +25,8 @@ public class MemberService {
         return memberRepository.findAll();
     }
 
+    public Optional<Member> getMemberById(Long id) {
+        return memberRepository.findById(id);
+    }
 
 }
