@@ -1,8 +1,6 @@
 package repository;
 import model.Loan;
 import model.LoanStatus;
-
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -10,6 +8,8 @@ import java.util.List;
 public class LoanRepository {
 
     private final List<Loan> loans = new ArrayList<>();
+
+    public LoanRepository() {}
 
     public void addLoan(Loan loan) {
         loans.add(loan);

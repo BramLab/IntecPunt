@@ -4,10 +4,11 @@ import model.Loan;
 import model.LoanStatus;
 import model.Member;
 import repository.BookRepository;
+import repository.LoanRepository;
 import service.BookService;
 import model.Book;
+import service.LoanService;
 
-import java.time.LocalDate;
 import java.util.Date;
 
 public class LibrarySystemMain {
@@ -19,6 +20,7 @@ public class LibrarySystemMain {
         BookService bookService = new BookService(bookRepository);
 
 
+
         // Voeg enkele boeken toe
         Book b1 = new Book("OCA java 8");
         Book b2 = new Book("Harry Poter");
@@ -28,11 +30,19 @@ public class LibrarySystemMain {
         bookService.addBook(b2);
         bookService.addBook(b3);
         Member m1 = new Member("Bram", 64, "bram.labarque@gmail.com", "1234");
-        Loan loan = new Loan(new Date(), new Date(2025,10,1),b1, m1);
-        loan.setLoanDate(new Date());
-//        loan.setDueDate(loan.getLoanDate().plusDays(14));
-//        loan.setReturnDate(LocalDate.now());
-        loan.setStatus(LoanStatus.RETURNED);
+        Loan loan01 = new Loan(new Date(), new Date(2025,10,1),b1, m1);
+        loan01.setLoanDate(new Date());
+        loan01.setStatus(LoanStatus.RETURNED);
+
+
+
+        LoanService loanService01 = new LoanService(new LoanRepository());
+
+        loanService01.createLoan(b1,m1, 14);
+        loanService01.returnBook(loan01);
+        double fine = loanService01.checkFine(loan01);
+        System.out.println("the fine is €"+fine+".");
+
 
     }
 }

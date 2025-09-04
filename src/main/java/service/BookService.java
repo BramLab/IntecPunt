@@ -10,6 +10,8 @@ public class BookService {
     private final BookRepository bookRepository;
     private LoanService loanService;
 
+    public BookService() {}
+
     public BookService(BookRepository bookRepository) {
         this.bookRepository = bookRepository;
     }

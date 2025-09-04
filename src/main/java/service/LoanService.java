@@ -19,14 +19,17 @@ public class LoanService {
     }
 
     public Loan createLoan(Book book, Member member, int loanDays) {
-//        if (book.getAvailableCopies() <= 0) { // getters nodig van variabele AvailableCopies in Book
-//            throw new IllegalStateException("Book unavailable");
-//        }
+        BookService bookService = new BookService();
+        int availableCopies = bookService.countAvailableCopies(book.getIsbn());
+
+        if (availableCopies <= 0) {
+            throw new IllegalStateException("Book unavailable");
+        }
         Date loanDate = new Date();
-        Date dueDate = new Date(loanDate.getTime() + loanDays * 1000*60*60*24L);
+        Date dueDate = new Date(loanDate.getTime() + loanDays * 1000L*60*60*24);
 
         Loan loan = new Loan(loanDate, dueDate, book, member);
-        //book.decrementAvailableCopies();
+
         loanRepository.addLoan(loan);
         return loan;
     }
@@ -51,30 +54,15 @@ public class LoanService {
     public void returnBook(Loan loan) {
         loan.setReturnDate(new Date());
         loan.setStatus(LoanStatus.RETURNED);
-        //loan.getBook().incrementAvailableCopies();
     }
 
     public double checkFine (Loan loan) {
-        return 0;//loanRepository.calculateFine(loan);
+       if (!loan.isOverdue()) return 0.0;
+
+       Date realReturnDate = loan.getReturnDate() != null ? loan.getReturnDate() : new Date();
+       long overDueTime = realReturnDate.getTime() - loan.getDueDate().getTime();
+       long overDueDate = overDueTime / (1000*60/60/24);
+
+       return overDueDate * 0.20;
     }
 }
-
-/* CODE FOR BOOK CLASS
-
-    private int availableCopies;
-        +
-    getter en setter van dit member
-
-    public void decrementAvailableCopies() {
-        if (availableCopies > 0) {
-            availableCopies--;
-        } else {
-            throw new IllegalStateException("No more copies available");
-        }
-    }
-
-    public void incrementAvailableCopies() {
-        availableCopies++;
-    }
-
- */
