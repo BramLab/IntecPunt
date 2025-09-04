@@ -9,6 +9,8 @@ import java.util.Optional;
 public class BookService {
     private BookRepository bookRepository;
 
+    public BookService() {}
+
     public BookService(BookRepository bookRepository) {
         this.bookRepository = bookRepository;
     }
