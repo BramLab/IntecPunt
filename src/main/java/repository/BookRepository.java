@@ -26,24 +26,31 @@ public class BookRepository {
 
     public Optional<Book> searchBook(String title, String author, int publicationYear) {
         return books.stream()
+                .filter(Objects::nonNull)
+                .filter(b -> Objects.nonNull(b.getTitle()) && Objects.nonNull(b.getAuthor()) && b.getPublicationYear() > 0 )
                 .filter(b -> b.getTitle().equals(title) & b.getAuthor().equals(author) & (b.getPublicationYear() == publicationYear))
                 .findAny();
     }
 
     public Optional<Book> searchBook(String isbn) {
         return books.stream()
+                .filter(Objects::nonNull)
+                .filter(b -> Objects.nonNull(b.getIsbn()))
                 .filter(b -> b.getIsbn().equals(isbn))
                 .findAny();
     }
 
     public Optional<Book> searchBook(Long id) {
         return books.stream()
+                .filter(Objects::nonNull)
+                .filter(b -> Objects.nonNull(b.getId()))
                 .filter(b -> b.getId().equals(id))
                 .findAny();
     }
 
     public int countAllCopies(String isbn) {
         return (int) books.stream()
+                .filter(Objects::nonNull)
                 .filter(b -> Objects.nonNull(b.getIsbn()))
                 .filter(b -> b.getIsbn().equals(isbn))
                 .count();
@@ -52,6 +59,7 @@ public class BookRepository {
     // assertive: missing info-> no copies of each other!
     public int countAllCopies(String title, String author, int publicationYear) {
         return (int) books.stream()
+                .filter(Objects::nonNull)
                 .filter(b -> Objects.nonNull(b.getTitle()) && Objects.nonNull(b.getAuthor()) && b.getPublicationYear() > 0 )
                 .filter(b -> b.getTitle().equals(title)
                         & b.getAuthor().equals(author)

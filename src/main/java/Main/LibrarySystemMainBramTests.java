@@ -71,6 +71,8 @@ public class LibrarySystemMainBramTests {
         System.out.println("countNonreturnedCopies hobbit: " + loanService.countNonreturnedCopies(bookHobbit.getIsbn()));
         System.out.println("countAvailableCopies hobbit: " + bookService.countAvailableCopies(bookHobbit.getIsbn()));
 
+        System.out.println("countAllCopies of nonexisting: " + bookService.countAllCopies("123"));
+
     }
 }
 
