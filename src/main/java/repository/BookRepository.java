@@ -20,9 +20,9 @@ public class BookRepository {
         return List.copyOf(books);// copy of books to prevent changes!
     }
 
-    public List<Book> findAll() {
-        return new ArrayList<>(books);
-    }
+    //public List<Book> findAll() {
+    //    return new ArrayList<>(books);
+    //}
 
     public Optional<Book> searchBook(String title, String author, int publicationYear) {
         return books.stream()
@@ -52,6 +52,7 @@ public class BookRepository {
         return (int) books.stream()
                 .filter(Objects::nonNull)
                 .filter(b -> Objects.nonNull(b.getIsbn()))
+                .filter(b -> !b.isSoftDeleted())
                 .filter(b -> b.getIsbn().equals(isbn))
                 .count();
     }
@@ -60,6 +61,7 @@ public class BookRepository {
     public int countAllCopies(String title, String author, int publicationYear) {
         return (int) books.stream()
                 .filter(Objects::nonNull)
+                .filter(b -> !b.isSoftDeleted())
                 .filter(b -> Objects.nonNull(b.getTitle()) && Objects.nonNull(b.getAuthor()) && b.getPublicationYear() > 0 )
                 .filter(b -> b.getTitle().equals(title)
                         & b.getAuthor().equals(author)

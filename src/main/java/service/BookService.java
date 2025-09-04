@@ -19,6 +19,10 @@ public class BookService {
     }
 
     public List<Book> getBooks(){
+        return bookRepository.getBooks().stream().filter(b -> !b.isSoftDeleted()).toList();
+    }
+
+    public List<Book> getBooksIncludingSoftDeleted(){
         return bookRepository.getBooks();
     }
 
@@ -32,9 +36,11 @@ public class BookService {
     }
 
     public void softDeleteBook(Long id){
-        Optional<Book> optionalBook = bookRepository.searchBook(id);
-        if (optionalBook.isPresent()) softDeleteBook(optionalBook.get());
-        optionalBook.ifPresent(this::softDeleteBook);
+        if (!loanService.isBookInLoan(id)){
+            Optional<Book> optionalBook = bookRepository.searchBook(id);
+            //if (optionalBook.isPresent()) softDeleteBook(optionalBook.get());
+            optionalBook.ifPresent(this::softDeleteBook);
+        }
     }
 
     public Book searchBook(String title, String author, int publicationYear){
