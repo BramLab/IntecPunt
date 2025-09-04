@@ -113,7 +113,7 @@ public class LibrarySystemMain {
 
         System.out.println("LoanService tests ");
 
-        Book b1 = bookService.searchBook(7L);
+        Book b1 = bookService.searchBook(4L);
         //Member m1 = new Member("Bram", 64, "bram.labarque@gmail.com", 5L);
         Loan loan01 = new Loan(new Date(), new Date(2025,10,1),b1, m1);
         loan01.setLoanDate(new Date());
