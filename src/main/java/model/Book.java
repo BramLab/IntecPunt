@@ -7,7 +7,7 @@ public class Book {
     private String author;
     private int publicationYear;
     private String isbn;
-    private boolean isArchived;
+    private boolean isSoftDeleted;
     private final Long id;
     //- totalCopies: int -> service
     // availableCopies: int -> service
@@ -15,7 +15,7 @@ public class Book {
     static final AtomicLong atomicLongBook = new AtomicLong(1);
 
     public Book(String title) {
-        this(title, null, 0, null);
+        this(title, "", 0, "");
     }
 
     public Book(String title, String author, int publicationYear, String isbn) {
@@ -24,7 +24,7 @@ public class Book {
         this.publicationYear = publicationYear;
         this.isbn = isbn;
         this.id = atomicLongBook.getAndIncrement();
-        this.isArchived = false;
+        this.isSoftDeleted = false;
     }
 
     public String getTitle() {
@@ -59,12 +59,12 @@ public class Book {
         this.isbn = isbn;
     }
 
-    public boolean isArchived() {
-        return isArchived;
+    public boolean isSoftDeleted() {
+        return isSoftDeleted;
     }
 
-    public void setArchived(boolean archived) {
-        isArchived = archived;
+    public void setSoftDeleted(boolean softDeleted) {
+        isSoftDeleted = softDeleted;
     }
 
     public Long getId() {
@@ -78,7 +78,7 @@ public class Book {
                 ", author='" + author + '\'' +
                 ", publicationYear=" + publicationYear +
                 ", isbn='" + isbn + '\'' +
-                ", isArchived='" + isArchived + '\'' +
+                ", isSoftDeleted='" + isSoftDeleted + '\'' +
                 ", id='" + id + '\'' +
                 "}";
     }

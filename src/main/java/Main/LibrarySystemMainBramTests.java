@@ -16,7 +16,7 @@ import java.util.Date;
 public class LibrarySystemMainBramTests {
 
     public static void main(String[] args) {
-        // Maak repositories
+        // Make repositories
         // The constructor of the BookRepository provides for some demo books.
         BookRepository bookRepository = new BookRepository();
         MemberRepository memberRepository = new MemberRepository();
@@ -26,18 +26,23 @@ public class LibrarySystemMainBramTests {
         Loan aLoan = new Loan(new Date(), new Date(2025, 10, 1), book1, m1);
         LoanRepository loanRepository = new LoanRepository();
 
-        //Maak Services
+        // Make Services
         BookService bookService = new BookService(bookRepository);
         MemberService memberService = new MemberService(memberRepository);
         LoanService loanService = new LoanService(loanRepository);
         bookService.setLoanService(loanService);
 
-        // Voeg enkele boeken toe zonder isbn
+        // Add some books with and without isbn.
         bookService.addBook(new Book("OCA java 8"));
-        bookService.addBook(new Book("Harry Poter"));
+        bookService.addBook(new Book("Harry Potter"));
         bookService.addBook(new Book("Malcom x"));
+        bookService.addBook(new Book("De Hobbit", "John Ronald Reuel Tolkien", 2015, "9789022575512"));
+        bookService.addBook(new Book("De Hobbit", "John Ronald Reuel Tolkien", 2015, "9789022575512"));
+        bookService.addBook(new Book("De Hobbit", "John Ronald Reuel Tolkien", 2015, "9789022575512"));
+        bookService.addBook(new Book("Heer Belisarius", "Robert Graves", 2010, "9789067282451"));
 
         System.out.println("\n\uD83D\uDCCBbookService.getBooks: " + Arrays.toString(bookService.getBooks().toArray()));
+
 
         Book book = bookService.searchBook("De Hobbit", "John Ronald Reuel Tolkien", 2015);
         System.out.println("\nbookService.searchBook(title, author, yearPublished): " + book);

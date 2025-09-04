@@ -10,10 +10,6 @@ public class BookRepository {
 
     public BookRepository() {
         // Could/should be: read file with list of books, and put them in book list.
-        addBook(new Book("De Hobbit", "John Ronald Reuel Tolkien", 2015, "9789022575512"));
-        addBook(new Book("De Hobbit", "John Ronald Reuel Tolkien", 2015, "9789022575512"));
-        addBook(new Book("De Hobbit", "John Ronald Reuel Tolkien", 2015, "9789022575512"));
-        addBook(new Book("Heer Belisarius", "Robert Graves", 2010, "9789067282451"));
     }
 
     public void addBook(Book book) {
