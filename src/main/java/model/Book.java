@@ -71,6 +71,10 @@ public class Book {
         return id;
     }
 
+    private String generateIsbn() {
+        return "ISBN-" + System.currentTimeMillis();
+    }
+
     @Override
     public String toString() {
         return "\nBook{" +

@@ -23,6 +23,11 @@ public class LibrarySystemMainBramTests {
 
         Book book1 = new Book("OCA java 8");
         Member m1 = new Member("Bram", 64, "bram.labarque@gmail.com", "1234");
+        Member m2 = new Member("Lucie",22,"lucie.monarchie@gmail.com","2468");
+        Member m3 = new Member("Lola",18,"lola.cawlo@gmail.com","4689");
+        Member m4 = new Member("Charlie",45,"charlie.chapline@gmail.com","7649");
+        memberRepository.findAll();
+        System.out.println(memberRepository);
         Loan aLoan = new Loan(new Date(), new Date(2025, 10, 1), book1, m1);
         LoanRepository loanRepository = new LoanRepository();
 

@@ -14,6 +14,9 @@ public class BookRepository {
         addBook(new Book("De Hobbit", "John Ronald Reuel Tolkien", 2015, "9789022575512"));
         addBook(new Book("De Hobbit", "John Ronald Reuel Tolkien", 2015, "9789022575512"));
         addBook(new Book("Heer Belisarius", "Robert Graves", 2010, "9789067282451"));
+        addBook(new Book("OCA java 8", "Jeanne Boyarsky", 2015,"9789067282446"));
+        addBook(new Book("Harry Poter","J.K. Rowling",2012,"9789067282695"));
+        addBook(new Book("Malcom x", "Alex Haley", 1965,"9789067282842"));
     }
 
     public void addBook(Book book) {
