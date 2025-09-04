@@ -19,7 +19,7 @@ public class MemberService {
     public void removeMember(Long id) {
         memberRepository.deleteById(id);
     }
-    // Lister tous les membres
+    // give all members
     public List<Member> listMembers() {
         return memberRepository.findAll();
     }
