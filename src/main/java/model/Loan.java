@@ -35,7 +35,10 @@ public class Loan {
     }
 
     public boolean isOverdue() {
-        return status == LoanStatus.ACTIVE && new Date().after(dueDate);
+        if (status == LoanStatus.RETURNED && returnDate != null) {
+            return returnDate.after(dueDate);
+        }
+        return new Date().after(dueDate);
     }
 
     @Override

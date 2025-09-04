@@ -36,10 +36,12 @@ public class LibrarySystemMain {
 
 
 
-        LoanService loanService = new LoanService(new LoanRepository());
-        loanService.createLoan(b1,m1, 14);
-        loanService.returnBook(loan01);
-        loanService.checkFine(loan01);
+        LoanService loanService01 = new LoanService(new LoanRepository());
+
+        loanService01.createLoan(b1,m1, 14);
+        loanService01.returnBook(loan01);
+        double fine = loanService01.checkFine(loan01);
+        System.out.println("the fine is €"+fine+".");
 
 
     }

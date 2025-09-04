@@ -35,6 +35,12 @@ public class LoanService {
     }
 
     public double checkFine (Loan loan) {
-        return 0;
+       if (!loan.isOverdue()) return 0.0;
+
+       Date realReturnDate = loan.getReturnDate() != null ? loan.getReturnDate() : new Date();
+       long overDueTime = realReturnDate.getTime() - loan.getDueDate().getTime();
+       long overDueDate = overDueTime / (1000*60/60/24);
+
+       return overDueDate * 0.20;
     }
 }
