@@ -30,8 +30,6 @@ public class LibrarySystemMain {
         Member m1 = new Member("Bram", 64, "bram.labarque@gmail.com", "1234");
         Loan loan = new Loan(new Date(), new Date(2025,10,1),b1, m1);
         loan.setLoanDate(new Date());
-//        loan.setDueDate(loan.getLoanDate().plusDays(14));
-//        loan.setReturnDate(LocalDate.now());
         loan.setStatus(LoanStatus.RETURNED);
 
     }
