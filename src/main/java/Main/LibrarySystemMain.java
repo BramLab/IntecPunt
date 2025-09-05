@@ -17,26 +17,31 @@ import java.util.Date;
 public class LibrarySystemMain {
 
     public static void main(String[] args) {
-        // Make repositories
-        // The constructor of the BookRepository provides for some demo books.
+
+        // region INITIALISATION OF MAIN CLASSES
+        // Repositories
         BookRepository bookRepository = new BookRepository();
         MemberRepository memberRepository = new MemberRepository();
         LoanRepository loanRepository = new LoanRepository();
 
-        // Make Services
+        // Services
         BookService bookService = new BookService(bookRepository);
         MemberService memberService = new MemberService(memberRepository);
         LoanService loanService = new LoanService(loanRepository);
         loanService.setBookService(bookService);
         bookService.setLoanService(loanService);
 
+        // Demo content.
         bookService.addBook(new Book("De Hobbit", "John Ronald Reuel Tolkien", 2015, "9789022575512"));
         bookService.addBook(new Book("De Hobbit", "John Ronald Reuel Tolkien", 2015, "9789022575512"));
         bookService.addBook(new Book("De Hobbit", "John Ronald Reuel Tolkien", 2015, "9789022575512"));
         bookService.addBook(new Book("Heer Belisarius", "Robert Graves", 2010, "9789067282451"));
 
-        System.out.println("\n\uD83D\uDCCBbookService.getBooks: " + Arrays.toString(bookService.getBooks().toArray()));
+        //endregion INITIALISATION OF MAIN CLASSES
 
+        // region BOOK TESTS
+        // search book
+        System.out.println("\n\uD83D\uDCCBbookService.getBooks: " + bookService.getBooks());
 
         Book book = bookService.searchBook("De Hobbit", "John Ronald Reuel Tolkien", 2015);
         System.out.println("\nbookService.searchBook(title, author, yearPublished): " + book);
@@ -44,13 +49,16 @@ public class LibrarySystemMain {
         book = bookService.searchBook("9789067282451");
         System.out.println("\nbookService.searchBook(isbn): " + book);
 
+        // count books
         System.out.println("\nbookService.countAllCopies: " + bookService.countAllCopies("9789022575512"));
 
         System.out.println("\nbookService.countAllCopies(title, author, pubyear) : " + bookService.countAllCopies("De Hobbit", "John Ronald Reuel Tolkien", 2015));
         System.out.println("\nbookService.countAllCopies(title, author, pubyear) : " + bookService.countAllCopies("a habbit", "uuig", 2015));
         System.out.println("\nbookService.countAllCopies(title, author, pubyear) : " + bookService.countAllCopies("Malcom x", null, 0));
 
-        // Test members:
+        // endregion BOOK TESTS
+
+        // region MEMBERS TESTS:
         System.out.println("\nTest members:");
         System.out.println("\n\uD83D\uDE4B\u200BTest members:");
         Member m1 = new Member("Bram", 64, "bram.labarque@gmail.com", 1234L);
@@ -62,7 +70,7 @@ public class LibrarySystemMain {
         memberService.addMember(m3);
         memberService.addMember(m4);
 
-//        System.out.println(Arrays.toString(memberService.listMembers().toArray()));
+        System.out.println(memberService.listMembers());
         System.out.println(memberRepository.findAll());
         memberService.removeMember(1234L);
         System.out.println(" new member list after delete: " + memberRepository.findAll());
@@ -78,9 +86,9 @@ public class LibrarySystemMain {
                 member -> System.out.println("Membre trouvé: " + member),
                 () -> System.out.println("No members find with this ID ")
         );
+        // endregion MEMBERS TESTS:
 
-
-        // Test loans/books:
+        // region LOANS/BOOKS TESTS:
         System.out.println("\n  \u200B\uD83E\uDDFE\u200BTEST LOANS/BOOKS:");
         Book bookHobbit = bookService.searchBook("De Hobbit", "John Ronald Reuel Tolkien", 2015);
         System.out.println("BookHobbit:                                " + bookHobbit);
@@ -90,10 +98,6 @@ public class LibrarySystemMain {
         System.out.println("loanService.countNonreturnedCopies hobbit: " + loanService.countNonreturnedCopies(bookHobbit.getIsbn()));
         System.out.println("bookService.countAvailableCopies hobbit:   " + bookService.countAvailableCopies(bookHobbit.getIsbn()));
         System.out.println("bookService.countAllCopies of nonexisting: " + bookService.countAllCopies("123"));
-
-
-        //bookService.getBooksIncludingSoftDeleted
-        //System.out.println("\n*** bookService.getBooksIncludingSoftDeleted: " + bookService.getBooksIncludingSoftDeleted());
 
         // Test softDelete (depends on isBookInLoan), so test that also:
         System.out.println("\n\n  TEST SOFTDELETE of unreturned book in loan; should not be possible.");
@@ -121,8 +125,9 @@ public class LibrarySystemMain {
         System.out.println("loanService.countNonreturnedCopies hobbit: " + loanService.countNonreturnedCopies(bookHobbit.getIsbn()));
         System.out.println("bookService.countAvailableCopies hobbit:   " + bookService.countAvailableCopies(bookHobbit.getIsbn()));
 
-        //loanService.returnBook();
+        // endregion LOANS/BOOKS TESTS
 
+        // region LOANSERVICE TEST
         System.out.println("\n\n  LOANSERVICE TEST ");
         Book b1 = bookService.searchBook(4L);
         Loan loan01 = new Loan(new Date(), new Date(2025,10,1),b1, m1);
@@ -136,6 +141,7 @@ public class LibrarySystemMain {
         double fine = loanService.checkFine(loan01);
         System.out.println("the fine is €"+fine+".");
 
+        // endregion LOANSERVICE TEST
 
     }
 }
