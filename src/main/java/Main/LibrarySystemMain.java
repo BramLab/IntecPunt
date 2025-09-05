@@ -58,7 +58,7 @@ public class LibrarySystemMain {
 
         // endregion BOOK TESTS
 
-        // region MEMBERS TESTS:
+        // region MEMBERS TESTS
         System.out.println("\nTest members:");
         System.out.println("\n\uD83D\uDE4B\u200BTest members:");
         Member m1 = new Member("Bram", 64, "bram.labarque@gmail.com", 1234L);
@@ -86,9 +86,9 @@ public class LibrarySystemMain {
                 member -> System.out.println("Membre trouvé: " + member),
                 () -> System.out.println("No members find with this ID ")
         );
-        // endregion MEMBERS TESTS:
+        // endregion MEMBERS TESTS
 
-        // region LOANS/BOOKS TESTS:
+        // region LOANS/BOOKS TESTS
         System.out.println("\n  \u200B\uD83E\uDDFE\u200BTEST LOANS/BOOKS:");
         Book bookHobbit = bookService.searchBook("De Hobbit", "John Ronald Reuel Tolkien", 2015);
         System.out.println("BookHobbit:                                " + bookHobbit);
@@ -125,7 +125,7 @@ public class LibrarySystemMain {
         System.out.println("loanService.countNonreturnedCopies hobbit: " + loanService.countNonreturnedCopies(bookHobbit.getIsbn()));
         System.out.println("bookService.countAvailableCopies hobbit:   " + bookService.countAvailableCopies(bookHobbit.getIsbn()));
 
-        // endregion LOANS/BOOKS TESTS
+        // endregion LOANS/BOOKS TEST
 
         // region LOANSERVICE TEST
         System.out.println("\n\n  LOANSERVICE TEST ");

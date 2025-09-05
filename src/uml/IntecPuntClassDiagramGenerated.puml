@@ -4,10 +4,6 @@ Main.LibrarySystemMain -> service.BookService
 Main.LibrarySystemMain --> service.MemberService
 Main.LibrarySystemMain --> service.LoanService
 
-Controller -> service.BookService
-Controller --> service.MemberService
-Controller --> service.LoanService
-
 service.BookService --> repository.BookRepository
 service.MemberService --> repository.MemberRepository
 service.LoanService --> repository.LoanRepository
@@ -16,10 +12,141 @@ repository.BookRepository --> model.Book
 repository.MemberRepository --> model.Member
 repository.LoanRepository --> model.Loan
 
+class repository.LoanRepository {
+- List<Loan> loans
++ <<Create>> LoanRepository()
++ void addLoan(Loan)
++ List<Loan> getAllLoans()
++ List<Loan> getLoansByMemberId(String)
+~ boolean isReturned(Loan)
++ boolean isOverdue(Loan)
++ double calculateFine(Loan)
+}
 
-class Main.LibrarySystemMainBramTests {
+
+class model.Book {
+- String title
+- String author
+- int publicationYear
+- String isbn
+- boolean isSoftDeleted
+- Long id
+~ {static} AtomicLong atomicLongBook
++ <<Create>> Book(String)
++ <<Create>> Book(String,String,int,String)
++ String getTitle()
++ void setTitle(String)
++ String getAuthor()
++ void setAuthor(String)
++ int getPublicationYear()
++ void setPublicationYear(int)
++ String getIsbn()
++ void setIsbn(String)
++ boolean isSoftDeleted()
++ void setSoftDeleted(boolean)
++ Long getId()
++ String toString()
+}
+
+
+class Main.LibrarySystemGUI {
+- BookService bookService
+- MemberService memberService
+- LoanService loanService
+- JTable bookTable
+- JTable memberTable
+- JTable loanTable
++ <<Create>> LibrarySystemGUI()
+- JPanel createBooksPanel()
+- JPanel createMembersPanel()
+- JPanel createLoansPanel()
+- void refreshBooks()
+- void refreshMembers()
+- void refreshLoans()
 + {static} void main(String[])
 }
+
+
+class service.LoanService {
+- LoanRepository loanRepository
+~ BookRepository bookRepository
+~ BookService bookService
++ <<Create>> LoanService(LoanRepository)
++ void setBookService(BookService)
++ Loan createLoan(Book,Member,int)
++ List<Loan> findAll()
++ int countNonreturnedCopies(String)
++ boolean isBookInLoan(Long)
++ void returnBook(Loan)
++ double checkFine(Loan)
+}
+
+
+class repository.MemberRepository {
+- List<Member> members
++ void save(Member)
++ void deleteById(Long)
++ Optional<Member> findById(Long)
++ List<Member> findAll()
+}
+
+
+enum model.LoanStatus {
++  ACTIVE
++  RETURNED
++  OVERDUE
+}
+note left of model.LoanStatus::ACTIVE
+ Boek is uitgeleend
+end note
+note right of model.LoanStatus::RETURNED
+ Boek is teruggebracht
+end note
+note left of model.LoanStatus::OVERDUE
+ Boek is te laat, niet teruggebracht
+end note
+
+class Main.LibrarySystemMain {
++ {static} void main(String[])
+}
+
+class service.BookService {
+- BookRepository bookRepository
+- LoanService loanService
++ <<Create>> BookService(BookRepository)
++ void setLoanService(LoanService)
++ List<Book> getBooks()
++ List<Book> getBooksIncludingSoftDeleted()
++ void addBook(Book)
++ void softDeleteBook(Book)
++ void softDeleteBook(Long)
++ Book searchBook(String,String,int)
++ Book searchBook(String)
++ Book searchBook(Long)
++ int countAllCopies(String,String,int)
++ int countAllCopies(String)
++ int countAvailableCopies(String)
+}
+
+note left of service.BookService::softDeleteBook(Book)
+ first search/get the book
+end note
+
+class repository.BookRepository {
+~ List<Book> books
++ <<Create>> BookRepository()
++ void addBook(Book)
++ List<Book> getBooks()
++ Optional<Book> searchBook(String,String,int)
++ Optional<Book> searchBook(String)
++ Optional<Book> searchBook(Long)
++ int countAllCopies(String)
++ int countAllCopies(String,String,int)
+}
+
+note left of repository.BookRepository::countAllCopies(String,String,int)
+ assertive: missing info-> no copies of each other!
+end note
 
 class model.Loan {
 - Date loanDate
@@ -46,108 +173,27 @@ class model.Loan {
 }
 
 
-class service.BookService {
-- BookRepository bookRepository
-- LoanService loanService
-+ <<Create>> BookService(BookRepository)
-+ void setLoanService(LoanService)
-+ List<Book> getBooks()
-+ void addBook(Book)
-+ void deleteBook(Book)
-+ void deleteBook(Long)
-+ Book searchBook(String,String,int)
-+ Book searchBook(String)
-+ Book searchBook(Long)
-+ int countAllCopies(String,String,int)
-+ int countAllCopies(String)
-+ int countAvailableCopies(String)
-}
-
-
-class repository.MemberRepository {
-- List<Member> members
-+ void save(Member)
-+ void deleteById(Long)
-+ Optional<Member> findById(Long)
-+ List<Member> findAll()
-}
-
-
-enum model.LoanStatus {
-+  ACTIVE
-+  RETURNED
-+  OVERDUE
-}
-
-class Main.LibrarySystemMain {
-+ {static} void main(String[])
-}
-
-class service.LoanService {
-- LoanRepository loanRepository
-+ <<Create>> LoanService(LoanRepository)
-+ Loan createLoan(Book,Member,int)
-+ List<Loan> findAll()
-+ int countNonreturnedCopies(String)
-+ void returnBook(Loan)
-+ double checkFine(Loan)
-}
-
-
-class model.Book {
-- String title
-- String author
-- int publicationYear
-- String isbn
-- boolean isArchived
-- Long id
-~ {static} AtomicLong atomicLongBook
-+ <<Create>> Book(String)
-+ <<Create>> Book(String,String,int,String)
-+ String getTitle()
-+ void setTitle(String)
-+ String getAuthor()
-+ void setAuthor(String)
-+ int getPublicationYear()
-+ void setPublicationYear(int)
-+ String getIsbn()
-+ void setIsbn(String)
-+ boolean isArchived()
-+ void setArchived(boolean)
-+ Long getId()
-+ String toString()
-}
-
-
-class repository.LoanRepository {
-- List<Loan> loans
-+ void addLoan(Loan)
-+ List<Loan> getAllLoans()
-+ List<Loan> getLoansByMemberId(String)
-~ boolean isReturned(Loan)
-+ boolean isOverdue(Loan)
-+ double calculateFine(Loan)
-}
-
-
 class model.Member {
 - String name
 - int age
-- String memberId
+- Long memberId
 - String email
-+ <<Create>> Member(String,int,String,String)
++ <<Create>> Member(String,int,String,Long)
 + String getName()
 + void setName(String)
 + int getAge()
 + void setAge(int)
-+ String getMemberId()
-+ void setMemberId(String)
++ Long getMemberId()
++ void setMemberId(Long)
 + String getEmail()
 + void setEmail(String)
 + boolean equals(Object)
 + int hashCode()
 + String toString()
 }
+note left of model.Member::memberId
+ Unique ID "
+end note
 
 
 class service.MemberService {
@@ -156,21 +202,20 @@ class service.MemberService {
 + void addMember(Member)
 + void removeMember(Long)
 + List<Member> listMembers()
++ Optional<Member> getMemberById(Long)
 }
 
-
-class repository.BookRepository {
-~ List<Book> books
-+ <<Create>> BookRepository()
-+ void addBook(Book)
-+ List<Book> getBooks()
-+ List<Book> findAll()
-+ Optional<Book> searchBook(String,String,int)
-+ Optional<Book> searchBook(String)
-+ Optional<Book> searchBook(Long)
-+ int countAllCopies(String)
-+ int countAllCopies(String,String,int)
-}
+note left of service.MemberService::addMember(Member)
+ adding a member
+end note
+note right of service.MemberService::removeMember(Long)
+ remove a member
+end note
+note left of service.MemberService::listMembers()
+ give all members
+end note
 
 
+
+Main.JFrame <|-- Main.LibrarySystemGUI
 @enduml
