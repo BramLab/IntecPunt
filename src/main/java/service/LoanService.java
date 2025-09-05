@@ -64,7 +64,10 @@ public class LoanService {
     }
 
     public double checkFine (Loan loan) {
-       if (!loan.isOverdue()) return 0.0;
+       if (!loan.isOverdue()) {
+           System.out.println("No fine due, book returned in time");
+           return 0.0;
+       }
 
        Date realReturnDate = loan.getReturnDate() != null ? loan.getReturnDate() : new Date();
        long overDueTime = realReturnDate.getTime() - loan.getDueDate().getTime();
