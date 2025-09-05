@@ -59,13 +59,6 @@ public class Loan {
 
     @Override
     public String toString() {
-        return "Loan{" +
-                "loanDate=" + loanDate +
-                ", dueDate=" + dueDate +
-                ", returnDate=" + returnDate +
-                ", status=" + status +
-                ", book=" + book +
-                ", member=" + member +
-                '}';
+        return "LOAN of book: "+book+", loaned by " +member+", on "+ loanDate +", and due back: "+dueDate;
     }
 }

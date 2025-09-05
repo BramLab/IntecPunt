@@ -135,8 +135,9 @@ public class LibrarySystemMain {
         loan01.setStatus(LoanStatus.RETURNED);
         //LoanService loanService01 = new LoanService(new LoanRepository());
 
-        loanService.createLoan(b1,m1, 14);
-        loanService.returnBook(loan01);
+        Loan loan02 = loanService.createLoan(b1,m1, 14);
+        System.out.println(loan02);
+        loanService.returnBook(loan02);
         double fine = loanService.checkFine(loan01);
         System.out.println("the fine is €"+fine+".");
 
